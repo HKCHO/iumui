@@ -50,8 +50,6 @@ public class GroupControl {
 			return resultMap;
 		}
 		
-		
-		
 		return resultMap;
 	}
 	
