@@ -37,7 +37,6 @@
     <result column="cschedule" property="schedule"/>
   </resultMap>
   
-  
   <select id="totalSize" parameterType="int" resultType="int">
   	SELECT count(T2.GNO)
 			FROM MEMBERS T1, GMEMBERS T2, GGROUP T3
