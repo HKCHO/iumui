@@ -83,5 +83,10 @@
   			 WHERE ROWNUM ^= #{dataSize}+1
   </select>
   
+  <update id="updateColor" parameterType="map">
+  	UPDATE gmembers
+  	SET color=#{color}
+		WHERE gno=#{gno} AND mno=#{mno}  	
+  </update>
 </mapper>
 
