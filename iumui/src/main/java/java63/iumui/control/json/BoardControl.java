@@ -99,18 +99,22 @@ public class BoardControl {
     resultMap.put("status", "success");
     resultMap.put("local_small", localService.getSmallList(no));
     
-    
     return resultMap;
   }
 
   @RequestMapping("/view")
-  public Object view(int no, Model model) throws Exception {
+  public Object view(
+  		int no, 
+  		Model model,
+  		HttpSession session) throws Exception {
     Board board = boardService.get(no);
     
     HashMap<String,Object> resultMap = new HashMap<>();
     resultMap.put("status", "success");
     resultMap.put("board", board);
+    resultMap.put("loginUser", (Member)session.getAttribute("loginUser"));
     resultMap.put("boardComments", boardService.getComments(no));
+    resultMap.put("boardRequests", boardService.getRequests(no));
     return resultMap;
   }
   
@@ -147,7 +151,8 @@ public class BoardControl {
   }
   
   @RequestMapping("/recommend")
-  public Object recommend(int no, 
+  public Object recommend(
+  		int no, 
       HttpSession session) throws Exception {
     boardService.recommend(no, ((Member)session.getAttribute("loginUser")).getMemberNo());
     HashMap<String,Object> resultMap = new HashMap<>();
@@ -165,11 +170,25 @@ public class BoardControl {
     
     return resultMap;
   }
+  
+  @RequestMapping("/req_accept")
+  public Object req_accept(int bno, int mno) throws Exception {
+  	boardService.requestAccept(bno, mno);
+  	HashMap<String,Object> resultMap = new HashMap<>();
+  	resultMap.put("status", "success");
+  	
+  	return resultMap;
+  }
+  
+  @RequestMapping("/req_reject")
+  public Object req_reject(int bno, int mno) throws Exception {
+  	boardService.requestReject(bno, mno);
+  	HashMap<String, Object> resultMap = new HashMap<>();
+  	resultMap.put("status", "success");
+  	
+  	return resultMap;
+  }
 }
-
-
-
-
 
 
 
