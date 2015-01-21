@@ -6,6 +6,8 @@ import java63.iumui.dao.GroupDao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class GroupService {
@@ -41,4 +43,18 @@ public class GroupService {
   	
   	return groupDao.selectUserSchedules(paramMap);
   }
+  
+  @Transactional(
+      rollbackFor=Exception.class, 
+      propagation=Propagation.REQUIRED)
+  public void updateColor(String color, int gno, int mno) {
+  	HashMap<String,Object> paramMap = new HashMap<>();
+  	paramMap.put("color",color);
+  	paramMap.put("gno", gno);
+  	paramMap.put("mno",mno);
+  	
+    groupDao.updateColor(paramMap);
+  }
+  
+  
 }

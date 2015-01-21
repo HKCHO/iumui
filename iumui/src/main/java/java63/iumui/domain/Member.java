@@ -32,8 +32,8 @@ public class Member implements Serializable{
   protected String 				 nickName;
   protected String 			   phone;
   protected int 					 sex;
-  protected String introWord;
-  protected String selectLocal;
+  protected String 				 introWord;
+  protected String 				 selectLocal;
   
   
 	@Override

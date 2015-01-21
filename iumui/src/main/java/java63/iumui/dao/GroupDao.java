@@ -5,7 +5,6 @@ import java.util.Map;
 
 /*
 Product selectOne(int no);
-void update(Product product);
 void delete(int no);
 List<?> selectList(Map<String,Object> params);
 void insert(Product product);
@@ -16,11 +15,12 @@ void deletePhoto(int productNo);
 public interface GroupDao {
 	
   List<?> selectUserGroups(Map<String,Object> params);
-  
+  List<?> selectAllGroups(int mno);
+
   List<?> selectUserSchedules(Map<String,Object> params);
   
-  List<?> selectAllGroups(int mno);
-  
   int totalSize(int mno);
-
+  
+  void updateColor(Map<String,Object> params);
+  
 }

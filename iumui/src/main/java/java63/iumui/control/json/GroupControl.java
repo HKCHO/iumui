@@ -1,7 +1,6 @@
 package java63.iumui.control.json;
 
 import java.util.HashMap;
-
 import java63.iumui.domain.Member;
 import java63.iumui.service.GroupService;
 
@@ -85,4 +84,23 @@ public class GroupControl {
 		
 		return resultMap;
 	}
+	
+	@RequestMapping("/updateColor")
+	public Object updateFormColor ( 
+			HttpSession session,
+			int gno,
+			String color) throws Exception {
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		int mno = loginUser.getMemberNo();
+	
+		groupService.updateColor(color, gno, mno);
+		
+		HashMap<String,Object> resultMap = new HashMap<>();
+		resultMap.put("status", "success");
+		
+		return resultMap;
+	}
+	
+	
 }

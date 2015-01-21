@@ -6,19 +6,20 @@ import java.util.Date;
 public class Group implements Serializable{
 	private static final long serialVersionUID = 1L;
 
-	protected int gno;
-	protected String name;
-	protected String intro;
-	protected Date expire;
-	protected int state;
-	protected Date dday;
-	protected String schedule;
+	protected int 			     		gno;
+	protected String	      	  name;
+	protected String            intro;
+	protected Date 			        expire;
+	protected int               state;
+	protected Date              dday;
+	protected String            schedule;
+	protected String 					  color;
 	
 	@Override
 	public String toString() {
 		return "Group [gno=" + gno + ", name=" + name + ", intro=" + intro
 				+ ", expire=" + expire + ", state=" + state + ", dday=" + dday
-				+ ", schedule=" + schedule + "]";
+				+ ", schedule=" + schedule + ", color=" + color + "]";
 	}
 	
 	public int getGno() {
@@ -63,6 +64,12 @@ public class Group implements Serializable{
 	public void setSchedule(String schedule) {
 		this.schedule = schedule;
 	}
-
+	public String getColor() {
+		return color;
+	}
+	public void setColor(String color) {
+		this.color = color;
+	}
+	
 
 }
