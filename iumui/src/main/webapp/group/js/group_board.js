@@ -5,7 +5,7 @@
 $(function(){
 	$('.header').load('/iumui/common/header.html');
 	$('.footer').load('/iumui/common/footer.html');
-	$('.group_sidebar').load('/iumui/group/group_sidebar.html');
+	$('.side_bar').load('../common/sidebar.html');
 	$('.gboard_reply').load('/iumui/group/group_board_reply.html');
 });
 

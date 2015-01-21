@@ -83,23 +83,23 @@ function loadMyGroups(pageNo) {
 		var myGroups = data.groups
 
 		if((data.status) == "success"){
-			console.log(data.groups[2].formColor);
+			
 			if(myGroups.length > 0){
 				
 				require(['text!sidebar/mygroup_table.html'], function(html){
 					var template = Handlebars.compile(html);
 					$('#my_group_list').append(template(data));
 					
-					$(".my_groups th").append("<span class=\"setting-btn\"></span>");
+					$("th[userstate='1']").append("<span id=\"owner\">내가 관리하는 그룹</span>")
+																.append("<img class=\"setting-btn\" src=\"../icon/32x32/row 3/14.png\">");
 					
-					$(".setting-btn").load("set_div.html");
-					console.log("설정박스 생성 완료");
+					setSettingBtn();
 					
-					});
+				});
+				
 				
 			} else {
 				$('#my_group_list').append("가입한 그룹이 없습니다");
-				
 			}
 		}
 	});
@@ -107,3 +107,26 @@ function loadMyGroups(pageNo) {
 };
 /** 내가 가입한 모임 start*/
 
+function setSettingBtn() {
+	$(".setting-btn").click(function() {
+//		alert("설정버튼 클릭됨");
+		$(this).append("<input type=\"color\">색상 선택</input>");
+	});
+};
+
+//function parseDate4t(date) {
+//  if (date) {
+//    var date = new Date(date);
+//    
+//    if (date.getMonth() < 9) str += '0';
+//    var str = (date.getMonth() + 1) + '월';
+//    
+//    if (date.getDate() < 10) str += '0';
+//    str += date.getDate() + '일';
+//    
+//    return str;
+//    
+//  } else {
+//    return '';
+//  }
+//};
