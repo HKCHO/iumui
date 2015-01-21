@@ -70,6 +70,5 @@ public class Group implements Serializable{
 	public void setColor(String color) {
 		this.color = color;
 	}
-	
 
 }
