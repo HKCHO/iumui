@@ -63,6 +63,10 @@ public class BoardService {
     return boardDao.selectComments(boardNo);
   }
   
+  public List<?> getRequests(int boardNo) {
+    
+    return boardDao.selectRequests(boardNo);
+  }
   @Transactional(
       rollbackFor=Exception.class, 
       propagation=Propagation.REQUIRED)
