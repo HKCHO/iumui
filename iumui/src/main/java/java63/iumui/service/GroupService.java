@@ -40,7 +40,6 @@ public class GroupService {
   	paramMap.put("mno", mno);
   	paramMap.put("dataSize", dataSize);
   	
-  	
   	return groupDao.selectUserSchedules(paramMap);
   }
   
@@ -55,6 +54,5 @@ public class GroupService {
   	
     groupDao.updateColor(paramMap);
   }
-  
   
 }
