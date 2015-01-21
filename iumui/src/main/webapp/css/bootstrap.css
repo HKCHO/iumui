@@ -1,5 +1,5 @@
 /*!
- *  조현권에 의해 수정된 부트스트랩 CSS소스입니다. 사용시 주의하시기 바랍니다.
+ *  234chord에 의해 수정된 부트스트랩 CSS소스입니다. 사용시 주의하시기 바랍니다.
  */
 
 html {
@@ -1989,9 +1989,6 @@ caption {
   padding-top: 8px;
   padding-bottom: 8px;
   color: #777;
-  text-align: left;
-}
-th {
   text-align: left;
 }
 .table {
