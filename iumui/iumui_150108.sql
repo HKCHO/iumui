@@ -233,7 +233,6 @@ CREATE TABLE ggroup (
 	gname VARCHAR2(50) NOT NULL, /* 모임이름 */
 	gintro VARCHAR2(110) NOT NULL, /* 모임소개 */
 	gend_date DATE NOT NULL, /* 종료일자 */
-	open_state INTEGER NOT NULL /* 공개여부 */
 );
 
 COMMENT ON TABLE ggroup IS '그룹';
@@ -245,8 +244,6 @@ COMMENT ON COLUMN ggroup.gname IS '모임이름';
 COMMENT ON COLUMN ggroup.gintro IS '모임소개';
 
 COMMENT ON COLUMN ggroup.gend_date IS '종료일자';
-
-COMMENT ON COLUMN ggroup.open_state IS '공개여부';
 
 CREATE UNIQUE INDEX PK_ggroup
 	ON ggroup (
