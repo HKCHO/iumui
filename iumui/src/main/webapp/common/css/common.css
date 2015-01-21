@@ -39,10 +39,6 @@ textarea {
   line-height: inherit;
 }
 
-table {
-	border-collapse: collapse;	
-}
-
 .btn:hover,
 .btn:focus,
 .btn.focus {
@@ -97,9 +93,15 @@ table {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+
+table {
+	border-collapse: collapse;	
+}
+
 .table-bordered {
   border: 1px solid #ddd;
 }
+
 .table > thead > tr > th,
 .table > tbody > tr > th,
 .table > tfoot > tr > th,
@@ -117,6 +119,11 @@ table {
 .table-bordered > tfoot > tr > td {
   border: 1px solid #ddd;
 }
+
+th {
+  text-align: left;
+}
+
 a:link,
 a:visited,
 a:hover,
