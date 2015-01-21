@@ -78,14 +78,24 @@ function loadMyGroups(pageNo) {
 
 		/** 확인용 로그*/
 		console.log("나의 모임 페이지 로드 : " + data.status);
+		console.log(data.groups)
 		/** 확인용 로그*/
 
 		var myGroups = data.groups
-
+		var today = new Date();
+		var Dday = [];
+		
 		if((data.status) == "success"){
-			console.log(data.groups[2].formColor);
 			if(myGroups.length > 0){
 				
+				for (var i in myGroups) {
+					Dday[i] = myGroups[i].expireDay - today;
+					Dday[i] = Math.floor(Dday[i] / (1000 * 60 * 60 * 24)) * -1;
+					myGroups[i].expireDay = [yyyyMMdd(myGroups[i].expireDay) , "D"+ Dday[i]];
+				}
+				
+				console.log(Dday);
+				console.log(data.groups)
 				require(['text!sidebar/mygroup_table.html'], function(html){
 					var template = Handlebars.compile(html);
 					$('#my_group_list').append(template(data));
@@ -107,3 +117,22 @@ function loadMyGroups(pageNo) {
 };
 /** 내가 가입한 모임 start*/
 
+/** 날짜 데이터 전환 start */
+function yyyyMMdd(date) {
+  if (date) {
+    var date = new Date(date);
+    var str = date.getFullYear() + '-';
+    
+    if (date.getMonth() < 9) str += '0';
+    str += (date.getMonth() + 1) + '-';
+    
+    if (date.getDate() < 10) str += '0';
+    str += date.getDate();
+    
+    return str;
+    
+  } else {
+    return '';
+  }
+}
+/** 날짜 데이터 전환 end */
