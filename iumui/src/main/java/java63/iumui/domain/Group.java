@@ -9,7 +9,7 @@ public class Group implements Serializable{
 	protected int 			     		gno;
 	protected String	      	  name;
 	protected String            intro;
-	protected Date 			        expire;
+	protected Date 			        expireDay;
 	protected int               state;
 	protected Date              dday;
 	protected String            schedule;
@@ -18,7 +18,7 @@ public class Group implements Serializable{
 	@Override
 	public String toString() {
 		return "Group [gno=" + gno + ", name=" + name + ", intro=" + intro
-				+ ", expire=" + expire + ", state=" + state + ", dday=" + dday
+				+ ", expire=" + expireDay + ", state=" + state + ", dday=" + dday
 				+ ", schedule=" + schedule + ", color=" + color + "]";
 	}
 	
@@ -41,10 +41,10 @@ public class Group implements Serializable{
 		this.intro = intro;
 	}
 	public Date getExpire() {
-		return expire;
+		return expireDay;
 	}
 	public void setExpire(Date expire) {
-		this.expire = expire;
+		this.expireDay = expire;
 	}
 	public int getState() {
 		return state;
