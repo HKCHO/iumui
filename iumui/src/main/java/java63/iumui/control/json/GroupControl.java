@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller("json.groupControl")
-@RequestMapping("/json/group")
+@RequestMapping("/group")
 public class GroupControl {
 	static Logger log = Logger.getLogger(GroupControl.class);
 
@@ -100,5 +100,19 @@ public class GroupControl {
 		return resultMap;
 	}
 	
+	@RequestMapping("/group_board")
+	public Object loadGroupPage ( 
+			HttpSession session,
+			int gno ) throws Exception {
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		int mno = loginUser.getMemberNo();
+		
+		HashMap<String,Object> resultMap = new HashMap<>();
+		resultMap.put("status", "success");
+		resultMap.put("group", groupService.getMyGroup(gno, mno));
+		
+		return resultMap;
+	}
 	
 }
