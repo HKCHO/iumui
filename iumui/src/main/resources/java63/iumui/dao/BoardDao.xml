@@ -26,9 +26,11 @@
     <result column="bname" property="title"/>
     <result column="btarget_num" property="targetNumber"/>
     <result column="req_count" property="reqCount"/>
+    
     <result column="start_date" property="startDate"/>
     <result column="end_date" property="endDate"/>
     <result column="uname" property="writer"/>
+    
     <result column="good_count" property="goodCount"/>
     <result column="click_count" property="clickCount"/>
   </resultMap>
@@ -47,9 +49,9 @@
 			          where b.mno=m.mno and b.bmno=#{categoryNo}
 			          order by bno desc) x, 
 			          (select b.bno bno, count(r.bno) good_count from iboard b, recommend r 
-			          where b.bno=r.bno(+) group by b.bno) y, 
+			          where b.bno=r.bno(+) group by b.bno order by b.bno desc) y, 
 			          (select b.bno bno, count(q.bno) req_count from iboard b, (select * from request where state=1) q 
-			          where b.bno=q.bno(+) group by b.bno) z
+			          where b.bno=q.bno(+) group by b.bno order by b.bno desc) z
 			      where x.bno=y.bno and x.bno=z.bno and (#{pageNo}*#{pageSize}) >= rownum
         )
     where rnum >= (#{pageNo}-1)*#{pageSize}+1
@@ -117,7 +119,7 @@
     <result column="status" property="statusNo"/>
     <result column="req_date" property="requestDate"/>
   </resultMap>
-  
+
   <select id="selectRequests" parameterType="int" 
       resultMap="boardRequestMap">
     select b.bno bno, r.mno mno, m.uname uname, r.state status, r.call req_date from iboard b, request r, members m
@@ -150,9 +152,40 @@
     values (#{boardNo},#{memberNo},sysdate)
   </insert>
   
+  <select id="selectMessageCount" parameterType="int" resultType="int">
+    select count(r.mno) 
+    from iboard b, request r, members m 
+    where r.bno=b.bno and r.mno=m.mno and (b.mno=#{value} or r.mno=#{value})
+  </select>
+  
+  
+  <resultMap type="map" id="messageMap">
+    <result column="bno" property="boardNo"/>
+    <result column="mno" property="memberNo"/>
+    <result column="message" property="message"/>
+    <result column="state" property="statusNo"/>
+  </resultMap>
+  
+  <select id="selectMessage" parameterType="int" resultMap="messageMap">
+    select x.bno bno, x.mno mno, 
+      ('[' || x.bname || '] 에 ' || x.uname || '님이 ' || y.explanation) message, x.state state 
+    from 
+					(select r.bno bno, r.mno mno, b.bname bname, m.uname uname, r.state state 
+					   from iboard b, request r, members m 
+					   where r.bno=b.bno and r.mno=m.mno and (b.mno=#{value} or r.mno=#{value}) order by r.call) x, 
+					(select 0 state ,'참여 요청 하였습니다.' explanation FROM dual
+					  union
+					  select 1, '참여 확정 되었습니다.' FROM dual
+					  union
+					  select 2, '참여 거부 되었습니다.' FROM dual
+					  union
+				    select 3, '참여 되었습니다.' FROM dual) y
+		where x.state=y.state
+  </select>
+  
   <insert id="request" parameterType="map">
     insert into request
-    values (#{boardNo},#{memberNo},1,sysdate)
+    values (#{boardNo},#{memberNo},0,sysdate)
   </insert>
   
   <update id="requestAccept" parameterType="map">
@@ -166,7 +199,7 @@
   <update id="updateClick" parameterType="int">
     update iboard set click_count=click_count+1 where bno=#{boardNo}
   </update>
-<!-- 
+<!--
   
   <resultMap type="Board" id="boardMap">
     
