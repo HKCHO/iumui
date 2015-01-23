@@ -19,7 +19,7 @@ $(function(){
 
 /** 가까운 일정 start*/
 function loadMySchedule() {
-	$.getJSON('../json/group/myschedules.do?dataSize=6' , 
+	$.getJSON('../group/myschedules.do?dataSize=6' , 
 			function(data){
 
 		/** 확인용 로그*/
@@ -35,8 +35,7 @@ function loadMySchedule() {
 		var mySchedules = data.schedules
 
 		/**사이드 2번 테이블 제목 삽입 start*/
-		$('#sidebar_contents2 a').attr('href','#')
-		.html("가까운 일정");
+		$('#sidebar_contents2 a').attr('href','#').html("가까운 일정");
 		/**사이드 2번 테이블 제목 삽입 end*/
 
 		if((data.status) == "success") {
@@ -73,7 +72,7 @@ function loadMySchedule() {
 /** 내가 가입한 모임 start*/
 function loadMyGroups(pageNo) {
 	
-	$.getJSON('../json/group/mygroups.do?pageNo='+ pageNo, 
+	$.getJSON('../group/mygroups.do?pageNo='+ pageNo, 
 			function(data){
 
 		/** 확인용 로그*/
@@ -96,7 +95,7 @@ function loadMyGroups(pageNo) {
 				
 				console.log(Dday);
 				console.log(data.groups)
-				require(['text!sidebar/mygroup_table.html'], function(html){
+				require(['text!group_list/mygroup_table.html'], function(html){
 					var template = Handlebars.compile(html);
 					$('#my_group_list').append(template(data));
 					
