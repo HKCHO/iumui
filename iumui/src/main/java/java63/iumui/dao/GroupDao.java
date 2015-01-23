@@ -16,7 +16,7 @@ public interface GroupDao {
 	
   List<?> selectUserGroups(Map<String,Object> params);
   List<?> selectAllGroups(int mno);
-
+  List<?> selectMyGroup(Map<String,Object> params);
   List<?> selectUserSchedules(Map<String,Object> params);
   
   int totalSize(int mno);
