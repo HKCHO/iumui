@@ -43,6 +43,15 @@ public class GroupService {
   	return groupDao.selectUserSchedules(paramMap);
   }
   
+ public List<?> getMyGroup (int gno, int mno) {
+  	
+  	HashMap<String,Object> paramMap = new HashMap<>();
+  	paramMap.put("gno", gno);
+  	paramMap.put("mno", mno);
+  	
+  	return groupDao.selectMyGroup(paramMap);
+  }
+  
   @Transactional(
       rollbackFor=Exception.class, 
       propagation=Propagation.REQUIRED)
