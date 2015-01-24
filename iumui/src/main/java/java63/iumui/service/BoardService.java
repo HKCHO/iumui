@@ -14,8 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class BoardService {
-  @Autowired
-  BoardDao boardDao;
+  @Autowired BoardDao boardDao;
   
   public List<?> getList(int categoryNo, int pageNo, int pageSize) {
    
@@ -33,6 +32,17 @@ public class BoardService {
     if ((totalSize % pageSize) > 0) maxPageNo++;
     
     return maxPageNo;
+  }
+  
+  public int getMessageCount(int memberNo) {
+  	int messageCount = boardDao.selectMessageCount(memberNo);
+  	
+  	return messageCount;
+  }
+  
+  public List<?> getMessage(int memberNo) {
+  	
+  	return boardDao.selectMessage(memberNo);
   }
   
   public List<?> getAllList() {
@@ -132,17 +142,3 @@ public class BoardService {
     boardDao.requestReject(paramMap);
   }  
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -29,10 +29,13 @@ function loadBoard(boardNo) {
     function(data){
   		board = data.board;
   		loginUser = data.loginUser;
-  		console.log(data.board);
-  		console.log(data.loginUser);
-  		console.log(data.boardComments);
-  		console.log(data.boardRequests);
+//  		console.log(data.board);
+//  		console.log(data.loginUser);
+//  		console.log(data.boardComments);
+//  		console.log(data.boardRequests);
+  		
+  		board.reqCount++;
+  		
   		$('#title').html(data.board.title);
   		$('#regDate').html(yyyyMMdd(data.board.regDate));
   		$('#writer').html('작 성 자 : ' + data.board.writer);
@@ -58,8 +61,9 @@ function loadBoard(boardNo) {
       		data.boardRequests[i].statusContent = "님이 참여 확정 되었습니다.";
       	} else if (data.boardRequests[i].statusNo == 2) {
       		data.boardRequests[i].statusContent = "님이 참여 거부 되었습니다.";
+      	} else if (data.boardRequests[i].statusNo == 3) {
+      		data.boardRequests[i].statusContent = "님이 참여 되었습니다.";
       	}
-      	
       }
   		
   		if ( loginUser && loginUser.memberNo==board.writerNo) 

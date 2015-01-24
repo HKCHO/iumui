@@ -23,3 +23,4 @@
 .alertWindow { position: fixed; left: 960px; top: 80px; padding-right: 22px; }
 .msgBox { padding-top: 20px; width: 200px; height: 220px; border: 1px gray solid; background-color: #eee8aa; font-size: 90%; } 
 .pbutton { text-align:right; }
+#btnMsgClose { position: absolute; top: 0px; right: 0px; }

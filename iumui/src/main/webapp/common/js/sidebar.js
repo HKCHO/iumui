@@ -72,7 +72,6 @@ function showCalendar (day, month, year) {
     }
 
 /** 달력 출력 end */
-
 function parseDate4t(date) {
   if (date) {
     var date = new Date(date);
