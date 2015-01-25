@@ -2,7 +2,10 @@ package java63.iumui.service;
 
 import java.util.HashMap;
 import java.util.List;
+
 import java63.iumui.dao.GroupDao;
+import java63.iumui.domain.Group;
+import java63.iumui.domain.GroupMember;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,6 +65,25 @@ public class GroupService {
   	paramMap.put("mno",mno);
   	
     groupDao.updateColor(paramMap);
+  }
+  
+  @Transactional(
+      rollbackFor=Exception.class, 
+      propagation=Propagation.REQUIRED)
+  public void addGroup(Group group) {
+    groupDao.insertGroup(group); 
+  }
+  
+  public int getNextVal() {
+    
+    return groupDao.selectNextVal();
+  }
+
+  @Transactional(
+      rollbackFor=Exception.class, 
+      propagation=Propagation.REQUIRED)
+  public void addGroupMember(GroupMember groupMember) {
+    groupDao.insertGroupMember(groupMember); 
   }
   
 }
