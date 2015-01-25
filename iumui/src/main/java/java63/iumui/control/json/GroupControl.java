@@ -1,6 +1,8 @@
 package java63.iumui.control.json;
 
 import java.util.HashMap;
+import java63.iumui.domain.Group;
+import java63.iumui.domain.GroupMember;
 import java63.iumui.domain.Member;
 import java63.iumui.service.GroupService;
 
@@ -11,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller("json.groupControl")
@@ -114,5 +117,31 @@ public class GroupControl {
 		
 		return resultMap;
 	}
+	
+	@RequestMapping(value="/add_group", method=RequestMethod.POST)
+  public Object add_group(
+      Group group) throws Exception {  
+	 System.out.println(group);
+	 group.setGno(groupService.getNextVal());
+	  groupService.addGroup(group);
+	  
+    HashMap<String,Object> resultMap = new HashMap<>();
+    resultMap.put("status", "success");
+    resultMap.put("no", group.getGno());
+    
+    return resultMap;
+  }
+	
+	@RequestMapping(value="/add_group_member", method=RequestMethod.POST)
+  public Object add_group_member(
+      GroupMember groupMember) throws Exception {  
+   
+    groupService.addGroupMember(groupMember);
+    
+    HashMap<String,Object> resultMap = new HashMap<>();
+    resultMap.put("status", "success");
+    
+    return resultMap;
+  }
 	
 }
