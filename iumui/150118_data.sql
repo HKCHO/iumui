@@ -545,6 +545,9 @@ values(gno.nextval,'삼성아카테미 2기','삼성과 마이크로소프트의
  
 select * from ggroup;
 
+select * from user_constraints;
+alter table ggroup drop constraint SYS_C007193;
+
 delete gmembers;
  
 // ---------------------------------------------
@@ -569,7 +572,49 @@ insert into gmembers
 values(grouping_no.nextval,7,5,0,'#f3f3f3');
  
 select * from gmembers;
+// ---------------------------------------------그룹 뉴스피드
+drop sequence gbno;
+create sequence gbno increment by 1 start with 1; 
+ 
+insert into gboard
+values(gbno.nextval,36,'계발 끝까지 모임에서 끝까지 간다. 1','2015/01/24');
+insert into gboard
+values(gbno.nextval,37,'계발 끝까지 모임에서 끝까지 간다. 2','2015/01/24');
+insert into gboard
+values(gbno.nextval,38,'계발 끝까지 모임에서 끝까지 간다. 3','2015/01/24');
+insert into gboard
+values(gbno.nextval,49,'test 모임에서 test 한다. 1','2015/01/24');
+insert into gboard
+values(gbno.nextval,50,'test 모임에서 test 한다. 2','2015/01/24');
 
+ 
+select * from gboard;
+
+// ---------------------------------------------그룹 뉴스피드 댓글
+
+drop sequence gbcno;
+create sequence gbcno increment by 1 start with 1; 
+ 
+insert into gcomment
+values(gbcno.nextval,1,37,'계발 끝까지...1','2015/01/24');
+insert into gcomment
+values(gbcno.nextval,1,38,'계발 끝까지...2','2015/01/24');
+insert into gcomment
+values(gbcno.nextval,2,36,'끝까지 계발...1','2015/01/24');
+insert into gcomment
+values(gbcno.nextval,2,38,'끝까지 계발...2','2015/01/24');
+insert into gcomment
+values(gbcno.nextval,3,36,'끝까지...1','2015/01/24');
+insert into gcomment
+values(gbcno.nextval,3,37,'끝까지...2','2015/01/24');
+insert into gcomment
+values(gbcno.nextval,4,50,'test...1','2015/01/24');
+insert into gcomment
+values(gbcno.nextval,5,49,'...test1','2015/01/24');
+
+
+ 
+select * from gcomment;
 // ---------------------------------------------그룹 일정
 drop sequence calendarno;
 create sequence calendarno increment by 1 start with 1; 
