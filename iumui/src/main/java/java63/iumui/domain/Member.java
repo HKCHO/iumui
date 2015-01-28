@@ -157,4 +157,5 @@ public class Member implements Serializable{
     this.selectLocal = selectLocal;
   }
   
+  
 }

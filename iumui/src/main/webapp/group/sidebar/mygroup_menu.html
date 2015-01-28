@@ -1,12 +1,31 @@
 <tr>
-	<td id='menu{{@index}}' class='side_menu' ><a href="#">&rtrif; 뉴스피드</a></td>
+	<td id='m1' class='side_menu' ><a href="group_board.html">&rtrif; 뉴스피드</a></td>
 </tr>
 <tr>
-	<td id='menu{{@index}}' class='side_menu' ><a href="#">&rtrif; 채   팅</a></td>
+	<td id='m2' class='side_menu' ><a href="group_chat.html">&rtrif; 채   팅</a></td>
 </tr>
 <tr>
-	<td id='menu{{@index}}' class='side_menu' ><a href="#">&rtrif; 일   정</a></td>
+	<td id='m3' class='side_menu' ><a href="group_schedule.html">&rtrif; 일   정</a></td>
 </tr>
 <tr>
-	<td id='menu{{@index}}' class='side_menu' ><a href="#">&rtrif; 구 성 원</a></td>
+	<td id='m4' class='side_menu' ><a href="group_members.html">&rtrif; 구 성 원</a></td>
 </tr>
+<script>
+var gno = getUrlParameter("gno");
+
+$('#m1 a ').attr('href','group_board.html?gno=' + gno);
+$('#m2 a ').attr('href','group_chat.html?gno=' + gno);
+$('#m3 a ').attr('href','group_schedule.html?gno=' + gno);
+$('#m4 a ').attr('href','group_members.html?gno=' + gno);
+
+$.getJSON('../group/group.do?gno=' + gno , 
+		function(data){
+	
+	$('title').html("IUMUI - " + data.group[0].name);
+	
+	/**사이드 1번 테이블 제목 삽입 start*/
+	$('#sidebar_contents1 a').html(data.group[0].name);
+	/**사이드 1번 테이블 제목 삽입 end*/
+});
+
+</script>

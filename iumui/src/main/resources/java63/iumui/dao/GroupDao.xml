@@ -33,8 +33,16 @@
   </resultMap>
   
   <resultMap type="map" id="userSchedules">
-    <id column="cdate" property="dday"/>
+    <id column="startday" property="startday"/>
+    <result column="endday" property="endday"/>
     <result column="cschedule" property="schedule"/>
+  </resultMap>
+  
+  <resultMap type="map" id="groupSchedules">
+  	<id column="gno" property="gno"/>
+  	<result column="startday" property="start"/>
+  	<result column="endday" property="end"/>
+  	<result column="cschedule" property="title"/>
   </resultMap>
   
   <select id="totalSize" parameterType="int" resultType="int">
@@ -77,15 +85,24 @@
   </select>
   
   <select id="selectUserSchedules" parameterType="map" resultMap="userSchedules">
-		 SELECT ROWNUM rnum, cdate, cschedule
+		 SELECT ROWNUM rnum, startday, endday, cschedule
   			FROM   
     			(SELECT *
   						FROM 
-  							(SELECT T2.CDATE cdate, T2.CSCHEDULE cschedule
+  							(SELECT T2.STARTDAY startday,T2.ENDDAY endday, T2.CSCHEDULE cschedule
 					  				FROM GMEMBERS T1, GSCHEDULE T2 
 					  				WHERE T1.MNO=#{mno} AND T1.GNO=T2.GNO)
-			 		  	ORDER BY cdate ASC)
+			 		  	ORDER BY startday ASC)
   			 WHERE ROWNUM ^= #{dataSize}+1
+  </select>
+  
+  <select id="selectGroupSchedules" parameterType="int" resultMap="groupSchedules">
+		 SELECT *
+  			FROM 
+  				(SELECT startday , endday, cschedule
+    				FROM GSCHEDULE
+	  				WHERE GNO=#{gno})
+		  	ORDER BY startday ASC
   </select>
   
   <update id="updateColor" parameterType="map">

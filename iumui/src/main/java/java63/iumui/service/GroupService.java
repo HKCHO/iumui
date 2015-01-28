@@ -2,7 +2,6 @@ package java63.iumui.service;
 
 import java.util.HashMap;
 import java.util.List;
-
 import java63.iumui.dao.GroupDao;
 import java63.iumui.domain.Group;
 import java63.iumui.domain.GroupMember;
@@ -15,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class GroupService {
 	
-  @Autowired GroupDao groupDao;
+  @Autowired GroupDao groupDao; 
   
   public List<?> getUserGroups(int pageNo, int mno) {
   	HashMap<String,Object> paramMap = new HashMap<>();
@@ -46,7 +45,15 @@ public class GroupService {
   	return groupDao.selectUserSchedules(paramMap);
   }
   
- public List<?> getMyGroup (int gno, int mno) {
+  public List<?> getGroupSchedules (int gno) {
+  	
+  	HashMap<String,Object> paramMap = new HashMap<>();
+  	paramMap.put("gno", gno);
+  	
+  	return groupDao.selectGroupSchedules(gno);
+  }
+  
+  public List<?> getMyGroup (int gno, int mno) {
   	
   	HashMap<String,Object> paramMap = new HashMap<>();
   	paramMap.put("gno", gno);

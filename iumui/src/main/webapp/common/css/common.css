@@ -150,3 +150,4 @@ a:active {
     text-decoration: none;
 }
 
+#main_contents > .side_bar { margin-top:15px; }

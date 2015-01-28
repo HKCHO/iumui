@@ -27,43 +27,17 @@ function loadMySchedule() {
 		/** 확인용 로그*/
 
 		for (var i in data.schedules) {
-			data.schedules[i].dday = parseDate4t(data.schedules[i].dday);
+			data.schedules[i].startday = yyyyMMdd(data.schedules[i].startday);
+			data.schedules[i].endday = yyyyMMdd(data.schedules[i].endday);
 		}
 		
 		
 		/** 가까운 일정 출력*/
-		var mySchedules = data.schedules
+		var groupSchedules = data.schedules
 
-		/**사이드 2번 테이블 제목 삽입 start*/
-		$('#sidebar_contents2 a').attr('href','#').html("가까운 일정");
-		/**사이드 2번 테이블 제목 삽입 end*/
-
-		if((data.status) == "success") {
-			if(mySchedules.length > 0) {
-				
-				require(['text!sidebar/side_table2.html'], function(html){
-					var template = Handlebars.compile(html);
-					$('#sidebar_table2_content').html( template(data) );
-					
-					var msRow = $('#sidebar_table2_content').find('tr').length;
-					
-					if(msRow < 6) {
-						for ( var i=0; i < ( 6 - msRow ); i++ ) {
-							$('#sidebar_table2_content').append("<tr><td class=\"sidebar_title\"></td></tr>");
-						}
-					}
-				});
-			} else {
-				for ( var i=0; i < 5; i++ ) {
-					
-					$('#sidebar_table2_content').append("<tr><td id=\"sidebar_title"+ i +"\"></td></tr>");
-				  $('#sidebar_table2_content td').css("height","31px");
-					
-				}
-				$('#sidebar_title2').html("일정이 없습니다.").css("padding","5px 15px").css("color","red");
-			}
-		}
-
+		console.log(groupSchedules)
+		
+		$('#testschedule').html(groupSchedules);
 	});
 };
 
