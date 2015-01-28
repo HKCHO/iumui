@@ -12,8 +12,6 @@ $(function(){
 	
 	loadMySchedule();
 	
-	console.log("loadMySchedule() 로딩 완료");  
-	
 });
 /** 화면출력 end */
 
@@ -23,7 +21,7 @@ function loadMySchedule() {
 			function(data){
 
 		/** 확인용 로그*/
-		console.log("나의 스케쥴 로딩" + data.status);
+		console.log("gschedule data loading : " + data.status);
 		/** 확인용 로그*/
 
 		for (var i in data.schedules) {
@@ -31,13 +29,39 @@ function loadMySchedule() {
 			data.schedules[i].endday = yyyyMMdd(data.schedules[i].endday);
 		}
 		
-		
 		/** 가까운 일정 출력*/
-		var groupSchedules = data.schedules
+		var mySchedules = data.schedules
+		console.log(mySchedules);
 
-		console.log(groupSchedules)
-		
-		$('#testschedule').html(groupSchedules);
+		/**사이드 2번 테이블 제목 삽입 start*/
+		$('#sidebar_contents2 a').attr('href','#').html("가까운 일정");
+		/**사이드 2번 테이블 제목 삽입 end*/
+
+		if((data.status) == "success") {
+			if(mySchedules.length > 0) {
+				
+				require(['text!sidebar/myschedule.html'], function(html){
+					var template = Handlebars.compile(html);
+					$('#sidebar_table2_content').html( template(data) );
+					
+					var msRow = $('#sidebar_table2_content').find('tr').length;
+					
+					if(msRow < 6) {
+						for ( var i=0; i < ( 6 - msRow ); i++ ) {
+							$('#sidebar_table2_content').append("<tr><td class=\"sidebar_title\"></td></tr>");
+						}
+					}
+				});
+			} else {
+				for ( var i=0; i < 5; i++ ) {
+					
+					$('#sidebar_table2_content').append("<tr><td id=\"sidebar_title"+ i +"\"></td></tr>");
+				  $('#sidebar_table2_content td').css("height","31px");
+					
+				}
+				$('#sidebar_title2').html("일정이 없습니다.").css("padding","5px 15px").css("color","red");
+			}
+		}
 	});
 };
 
@@ -50,8 +74,8 @@ function loadMyGroups(pageNo) {
 			function(data){
 
 		/** 확인용 로그*/
-		console.log("나의 모임 페이지 로드 : " + data.status);
-		console.log(data.groups)
+//		console.log("나의 모임 페이지 로드 : " + data.status);
+//		console.log(data.groups)
 		/** 확인용 로그*/
 
 		var myGroups = data.groups
@@ -67,8 +91,8 @@ function loadMyGroups(pageNo) {
 					myGroups[i].expireDay = [yyyyMMdd(myGroups[i].expireDay) , "D"+ Dday[i]];
 				}
 				
-				console.log(Dday);
-				console.log(data.groups)
+//				console.log(Dday);
+//				console.log(data.groups);
 				require(['text!group_list/mygroup_table.html'], function(html){
 					var template = Handlebars.compile(html);
 					$('#my_group_list').append(template(data));

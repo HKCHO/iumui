@@ -28,6 +28,10 @@ th.fc-day-header.fc-widget-header.fc-sat{background-color: #64b3df;}
 
 .empty_day { background-color:#efefef; border: 1px solid black; }
 
+.fc-title {
+	font-size: x-small;
+}
+
 .popupcontent { z-index: 300; overflow: hidden; visibility: visible; }
 .popupcontent input { width: 100%; }
 .popupcontent table {	width: 100%; }

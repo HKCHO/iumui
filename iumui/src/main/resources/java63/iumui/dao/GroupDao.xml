@@ -36,6 +36,7 @@
     <id column="startday" property="startday"/>
     <result column="endday" property="endday"/>
     <result column="cschedule" property="schedule"/>
+    <result column="color" property="formColor"/>
   </resultMap>
   
   <resultMap type="map" id="groupSchedules">
@@ -43,6 +44,7 @@
   	<result column="startday" property="start"/>
   	<result column="endday" property="end"/>
   	<result column="cschedule" property="title"/>
+  	<result column="color" property="formColor"/>
   </resultMap>
   
   <select id="totalSize" parameterType="int" resultType="int">
@@ -85,24 +87,25 @@
   </select>
   
   <select id="selectUserSchedules" parameterType="map" resultMap="userSchedules">
-		 SELECT ROWNUM rnum, startday, endday, cschedule
+		 SELECT ROWNUM rnum, startday, endday, cschedule, color
   			FROM   
     			(SELECT *
   						FROM 
-  							(SELECT T2.STARTDAY startday,T2.ENDDAY endday, T2.CSCHEDULE cschedule
+  							(SELECT T2.STARTDAY startday,T2.ENDDAY endday, T2.CSCHEDULE cschedule, T1.COLOR color
 					  				FROM GMEMBERS T1, GSCHEDULE T2 
 					  				WHERE T1.MNO=#{mno} AND T1.GNO=T2.GNO)
 			 		  	ORDER BY startday ASC)
   			 WHERE ROWNUM ^= #{dataSize}+1
   </select>
   
-  <select id="selectGroupSchedules" parameterType="int" resultMap="groupSchedules">
+  <select id="selectThisGroupSchedules" parameterType="map" resultMap="groupSchedules">
 		 SELECT *
   			FROM 
-  				(SELECT startday , endday, cschedule
-    				FROM GSCHEDULE
-	  				WHERE GNO=#{gno})
+  				(SELECT T1.startday startday, T1.endday endday, T1.cschedule cschedule, T2.color color
+    				FROM GSCHEDULE T1, GMEMBERS T2, GGROUP T3
+	  				WHERE T1.GNO=#{gno} AND T1.GNO = T2.GNO AND T2.GNO = T3.GNO AND T2.MNO = #{mno})
 		  	ORDER BY startday ASC
+        
   </select>
   
   <update id="updateColor" parameterType="map">

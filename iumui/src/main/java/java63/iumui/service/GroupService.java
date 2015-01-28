@@ -45,12 +45,13 @@ public class GroupService {
   	return groupDao.selectUserSchedules(paramMap);
   }
   
-  public List<?> getGroupSchedules (int gno) {
+  public List<?> getThisGroupSchedules (int gno,int mno) {
   	
   	HashMap<String,Object> paramMap = new HashMap<>();
   	paramMap.put("gno", gno);
+  	paramMap.put("mno", mno);
   	
-  	return groupDao.selectGroupSchedules(gno);
+  	return groupDao.selectThisGroupSchedules(paramMap);
   }
   
   public List<?> getMyGroup (int gno, int mno) {

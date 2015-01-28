@@ -26,7 +26,7 @@ public class GroupControl {
 	static Logger log = Logger.getLogger(GroupControl.class);
 
 	@Autowired GroupService   	   groupService;
-	@Autowired GroupBoardService       groupBoardService;
+	@Autowired GroupBoardService   groupBoardService;
 	@Autowired ServletContext 		 servletContext;
 
 	@RequestMapping("/mygroups")
@@ -149,15 +149,15 @@ public class GroupControl {
     return resultMap;
   }
 	@RequestMapping("/group_board")
-  public Object group_board(int no, 
+  public Object group_board(int gno, 
       Model model, 
       HttpSession session) throws Exception {
 	  
     HashMap<String,Object> resultMap = new HashMap<>();
     resultMap.put("status", "success");
-    resultMap.put("groupBoards", groupBoardService.getList(no));
+    resultMap.put("groupBoards", groupBoardService.getList(gno));
     resultMap.put("loginUser", (Member)session.getAttribute("loginUser"));
-    resultMap.put("groupBoardComments", groupBoardService.getComments(no));
+    resultMap.put("groupBoardComments", groupBoardService.getComments(gno));
     return resultMap;
   }
 
@@ -198,4 +198,20 @@ public class GroupControl {
     
     return resultMap;
   }
+	
+	@RequestMapping("/thisgroupschedule")
+	public Object getThisGroupSchedule (
+			HttpSession session,
+			int gno) throws Exception {
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		
+		int mno = loginUser.getMemberNo();
+		
+		HashMap<String,Object> resultMap = new HashMap<>();
+		resultMap.put("status", "success");
+		resultMap.put("schedules", groupService.getThisGroupSchedules(gno,mno));
+		
+		return resultMap;
+	}
 }

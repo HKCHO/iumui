@@ -29,14 +29,7 @@ $(function(){
 	gno = getUrlParameter("gno");
 
 	loadGroupBoard();
-	
-	$.getJSON('../group/group_board.do?gno=' + gno , 
-			function(data){
-		
-		/**사이드 1번 테이블 제목 삽입 start*/
-		$('#sidebar_contents1 a').attr('href','#').html(data.group[0].name);
-		/**사이드 1번 테이블 제목 삽입 end*/
-	});
+	loadGroupBoardComment();
 	
 	$(document).on('click', '.btnCReg', function(){
 
@@ -69,9 +62,10 @@ $(function(){
 	});
 	
 });
+//$(function(){}); 
 
 function loadGroupBoard() {
-	$.getJSON('../group/group_board.do?no='+ gno, 
+	$.getJSON('../group/group_board.do?gno='+ gno, 
 			function(data){
 		
 		console.log(data);
@@ -98,7 +92,6 @@ function loadGroupBoard() {
 
 function loadGroupBoardComment() {
 	for (var i in groupBoardComments) {
-				
 		$('#commentSet' + groupBoardComments[i].groupBoardNo).prepend("<div id='comment" + groupBoardComments[i].groupBoardNo + 
 				"' class='board_comment' gb-no='" + groupBoardComments[i].groupBoardNo + 
 				"' comment-no='" + groupBoardComments[i].no + "'>" +
@@ -113,26 +106,7 @@ function loadGroupBoardComment() {
 				"</div>" +
 			"</div>");
   }
-}
-
-function loadGroupBoardComment() {
-	for (var i in groupBoardComments) {
-				
-		$('#commentSet' + groupBoardComments[i].groupBoardNo).prepend("<div id='comment" + groupBoardComments[i].groupBoardNo + 
-				"' class='board_comment' gb-no='" + groupBoardComments[i].groupBoardNo + 
-				"' comment-no='" + groupBoardComments[i].no + "'>" +
-				"<div class='writer_photo'><img src='../icon/64x64/row 9/1.png'></div>" +
-				"<div class='board_info'>" +
-				"<div class='top_style'>" +
-				"<div id='commenter" + groupBoardComments[i].groupMemberNo + 
-				"' class='commenter'>" + groupBoardComments[i].userName + "</div>" +
-				"<div class='regDate cregDate'>"+ groupBoardComments[i].regDate +"</div>" +
-				"</div>" +
-				"<div id='cNo' class='comment_content'>"+ groupBoardComments[i].content +"</div>" +
-				"</div>" +
-			"</div>");
-  }
-}
+};
 
 function getUrlParameter(sParam)
 {
