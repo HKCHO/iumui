@@ -198,20 +198,4 @@ public class GroupControl {
     
     return resultMap;
   }
-	
-	@RequestMapping("/thisgroupschedule")
-	public Object getThisGroupSchedule (
-			HttpSession session,
-			int gno) throws Exception {
-		
-		Member loginUser = (Member) session.getAttribute("loginUser");
-		
-		int mno = loginUser.getMemberNo();
-		
-		HashMap<String,Object> resultMap = new HashMap<>();
-		resultMap.put("status", "success");
-		resultMap.put("schedules", groupService.getThisGroupSchedules(gno,mno));
-		
-		return resultMap;
-	}
 }

@@ -14,6 +14,7 @@ public class Group implements Serializable{
 	protected Date              start;
 	protected Date              end;
 	protected String            title;
+	protected String            schedule;
 	protected String 					  color;
 	
 	
@@ -21,7 +22,7 @@ public class Group implements Serializable{
 	public String toString() {
 		return "Group [gno=" + gno + ", name=" + name + ", intro=" + intro
 				+ ", expireDay=" + expireDay + ", state=" + state + ", start="
-				+ start + ", endday=" + end + ", title=" + title
+				+ start + ", end=" + end + ", schedule=" + schedule
 				+ ", color=" + color + "]";
 	}
 	public int getGno() {
@@ -77,6 +78,12 @@ public class Group implements Serializable{
 	}
 	public void setStart(Date startday) {
 		this.start = startday;
+	}
+	public String getSchedule() {
+		return schedule;
+	}
+	public void setSchedule(String schedule) {
+		this.schedule = schedule;
 	}
 	public Date getEndday() {
 		return end;

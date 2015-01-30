@@ -1,12 +1,12 @@
 /**
- * 그룹 게시판에 들어갈 사이드바 자바스크립트 소스
- * 조현권
+ * 그룹 게시판 화면 자바스크립트 소스
+ * 권영근, 김광철, 조현권
  * 2015/01/28
  */
-
 var groupBoards;
 var groupBoardComments;
 var gno;
+var loginUser;
 
 $(function(){
 	$('.header').load('/iumui/common/header.html');
@@ -22,14 +22,22 @@ $(function(){
 		$('#ccontent' + $(this).attr('data-no')).val('');
 		$('#commentInput' + $(this).attr('data-no')).css('display', 'none');
 	});
-
+	
 	loadMyGroups(1);
-	loadSideMenu();
+	loadSideMenu(); 
 	
 	gno = getUrlParameter("gno");
-
+	
 	loadGroupBoard();
-	loadGroupBoardComment();
+	
+	$.getJSON('../group/group.do?gno=' + gno , 
+			function(data){
+		
+		/**사이드 1번 테이블 제목 삽입 start*/
+		$('#sidebar_contents1 a').attr('href','#').html(data.group[0].name);
+		/**사이드 1번 테이블 제목 삽입 end*/
+		
+	});
 	
 	$(document).on('click', '.btnCReg', function(){
 
@@ -37,8 +45,7 @@ $(function(){
 			alert('글을 입력 하세요.');
 			return;
 		}
-
-	  $.post('../group/add_comment.do'
+	  $.post('../group_board/add_comment.do'
 	      , {
 	      		groupBoardNo : $(this).attr('gb-no'),
 	      		groupNo : gno,
@@ -62,13 +69,13 @@ $(function(){
 	});
 	
 });
-//$(function(){}); 
 
 function loadGroupBoard() {
-	$.getJSON('../group/group_board.do?gno='+ gno, 
+	$.getJSON('../group_board/board_list.do?no='+ gno, 
 			function(data){
 		
 		console.log(data);
+		loginUser = data.loginUser;
 		groupBoards = data.groupBoards;
 		groupBoardComments = data.groupBoardComments;
 		
@@ -85,6 +92,18 @@ function loadGroupBoard() {
       var template = Handlebars.compile(html);
       $('#group_board').html( template(data));
       loadGroupBoardComment();
+      
+      for (var i in groupBoards) {
+      	
+      	if ( loginUser && loginUser.memberNo == groupBoards[i].memberNo){
+      		
+    			$('#btnBModDel'+groupBoards[i].no).css('display', '');
+    			
+    		} else {
+    			$('#btnBModDel'+groupBoards[i].no).css('display', 'none');
+    			
+    		}
+      }
     });
 	});
 	
@@ -92,6 +111,7 @@ function loadGroupBoard() {
 
 function loadGroupBoardComment() {
 	for (var i in groupBoardComments) {
+				
 		$('#commentSet' + groupBoardComments[i].groupBoardNo).prepend("<div id='comment" + groupBoardComments[i].groupBoardNo + 
 				"' class='board_comment' gb-no='" + groupBoardComments[i].groupBoardNo + 
 				"' comment-no='" + groupBoardComments[i].no + "'>" +
@@ -106,10 +126,10 @@ function loadGroupBoardComment() {
 				"</div>" +
 			"</div>");
   }
-};
+}
 
-function getUrlParameter(sParam)
-{
+//현재 페이지의 URL값을 가져옵니다. 
+function getUrlParameter(sParam){
     var sPageURL = window.location.search.substring(1);
     var sURLVariables = sPageURL.split('&');
     for (var i = 0; i < sURLVariables.length; i++) 
@@ -122,7 +142,115 @@ function getUrlParameter(sParam)
     }
 }
 
+/** 댓글 작동 js소스 : 막아놓았습니다.*/
+/*
+$("#show_reply").click(function(){
+	if ($('#reply').css('display') == 'none'){
+		$('#reply').css('display','');
+	} else {
+		$('#reply').css('display','none');
+	}
+});
+*/
 
+$('#upload_content').click(function(){
+	$('#upload_content').css('height', '60px');
+});
+/*
+$('#upload_content').blur(function(){
+	$('#upload_content').css('height', '');
+});
+*/
+$('.ccontent').click(function(){
+	$('.ccontent').css('height', '60px');
+});
+/*
+$('.ccontent').blur(function(){
+	$('.ccontent').css('height', '');
+});
+*/
+/*
+$('.btnComment').click(function(){
+	$('.commentInput').css('display', '');
+});
+
+$('.btncCancel').click(function(){
+	$('.ccontent').val('');
+	$('.commentInput').css('display', 'none');
+});
+*/
+$(document).on('click', '.btnBoardMod', function(){
+	var sNo = $(this).attr('gb-no');
+	$('#modify_content' + sNo).css('display', '');
+	$('#bcontent' + sNo).val($('#usercontent' + sNo).html());
+	$('#usercontent' + sNo).css('display', 'none');
+});
+
+$(document).on('click', '.btnbCancel', function(){
+	var sNo = $(this).attr('gb-no');
+	$('#usercontent' + sNo).css('display', '');
+	$('#bcontent' + sNo).val('');
+	$('#modify_content' + sNo).css('display', 'none');
+});
+
+$(document).on('click', '.btnBmod', function(){
+	if ( !loginUser ) {
+		alert("로그인 하세요.");
+		return;
+	}
+	
+	var sNo = $(this).attr('gb-no');
+	for (var i in groupBoards) {
+		if (groupBoards[i].no == sNo) {
+			if (groupBoards[i].content == $('#bcontent' + sNo).val()) {
+		    alert('변경한 것이 없습니다!');
+		    return;
+		  }
+		}
+	}
+   
+	 if ( $('#bcontent' + sNo).val().length == 0) {
+	    alert('내용을 입력하세요.');
+	    return;
+	  }
+  
+  updateGroupBoard(sNo);
+});
+
+function updateGroupBoard(sNo) {
+	
+	$.post('../group_board/update.do'
+      , {  
+      		no : sNo,
+      		content : $('#bcontent' + sNo).val()
+      } 
+      , function(result){  
+        if (result.status == "success") {
+        	loadGroupBoard();
+        	
+        	$('#usercontent' + sNo).css('display', '');
+        	$('#bcontent' + sNo).val('');
+        	$('#modify_content' + sNo).css('display', 'none');
+        	
+        	alert("수정 성공");
+        
+        } else {
+          alert("등록 실패!");
+        }
+      } 
+      , 'json'  )
+    
+   .fail(function(jqXHR, textStatus, errorThrown){ 
+     alert(textStatus + ":" + errorThrown);
+   });
+}
+/*
+if ( loginUser && loginUser.memberNo==board.writerNo){
+	$('.btnBModDel').css('display', '');
+} else {
+	$('.btnBModDel').css('display', 'none');
+}
+*/
 /** 나의 모임 start */
 function loadMyGroups(pageNo) {
 
@@ -182,16 +310,16 @@ $('#uploadbtn').click(function(){
 	
 	if (!validateReg()) return;
   
-  $.post('../group/add_board.do'
+  $.post('../group_board/add_board.do'
       , {  
       		groupNo : gno,
       		content : $('#upload_content').val()
       } 
       , function(result){  
         if (result.status == "success") {
-        	alert("등록 성공");
         	
         	loadGroupBoard();
+        	alert("등록 성공");
         	$('#upload_content').val('');
         } else {
           alert("등록 실패!");
@@ -203,7 +331,6 @@ $('#uploadbtn').click(function(){
      alert(textStatus + ":" + errorThrown);
    });
 });
-/** 그룹 메뉴 end */
 
 function validateReg() {
   if ( $('#upload_content').val().length == 0) {
@@ -211,6 +338,26 @@ function validateReg() {
     return false;
   }
   return true;
+}
+
+$(document).on('click', '.btnBoardDel', function(){
+	if ( !loginUser ) {
+		alert("로그인 하세요.");
+		return;
+	}
+	
+	if (confirm("정말로 삭제 하시겠습니까?")) {
+		deleteBoard($(this).attr('gb-no'));		
+	} else return;
+});
+
+function deleteBoard(no) {
+  $.getJSON('../group_board/delete.do?no=' + no, 
+    function(data){
+      if (data.status == 'success') {
+      	loadGroupBoard();
+      }
+    });
 }
 
 function yyyyMMdd(date) {
@@ -231,12 +378,5 @@ function yyyyMMdd(date) {
   }
 }
 
-$('#upload_content').click(function(){
-	$('#upload_content').css('height', '60px');
-});
-
-$('.ccontent').click(function(){
-	$('.ccontent').css('height', '60px');
-});
-
+/** 그룹 메뉴 end */
 
