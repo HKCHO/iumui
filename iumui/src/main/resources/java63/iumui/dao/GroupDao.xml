@@ -35,8 +35,8 @@
   </resultMap>
   
   <resultMap type="map" id="userSchedules">
-    <id column="start" property="start"/>
-    <result column="end" property="end"/>
+    <id column="startday" property="startday"/>
+    <result column="endday" property="endday"/>
     <result column="cschedule" property="schedule"/>
     <result column="color" property="formColor"/>
   </resultMap>
@@ -83,11 +83,11 @@
   </select>
   
   <select id="selectUserSchedules" parameterType="map" resultMap="userSchedules">
-		 SELECT ROWNUM rnum, startday, endday, cschedule
+		 SELECT ROWNUM rnum, startday, endday, cschedule, color
   			FROM   
     			(SELECT *
   						FROM 
-  							(SELECT T2.STARTDAY startday,T2.ENDDAY endday, T2.CSCHEDULE cschedule
+  							(SELECT T2.STARTDAY startday,T2.ENDDAY endday, T2.CSCHEDULE cschedule, T1.COLOR color
 					  				FROM GMEMBERS T1, GSCHEDULE T2 
 					  				WHERE T1.MNO=#{mno} AND T1.GNO=T2.GNO)
 			 		  	ORDER BY startday ASC)

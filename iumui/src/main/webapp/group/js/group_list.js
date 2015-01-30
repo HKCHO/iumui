@@ -22,6 +22,7 @@ function loadMySchedule() {
 
 		/** 확인용 로그*/
 		console.log("gschedule data loading : " + data.status);
+		console.log(data);
 		/** 확인용 로그*/
 
 		for (var i in data.schedules) {
