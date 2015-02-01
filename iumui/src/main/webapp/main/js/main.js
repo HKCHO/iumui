@@ -10,9 +10,8 @@ $(function(){
 	$('.sidebar').load('../common/sidebar.html');
 	
 	loadBoardAllList();
-	console.log("메인 게시판 로딩 성공");
-	
-	loadMyGroups(1);
+	loadRecGroups();
+	loadMyGroups(1);//main_sidebar_table2
 
 	$(document).on('click', '.tableHead a', function(){
     loadProduct($(this).attr('category-no'));
@@ -33,6 +32,49 @@ function loadBoardAllList() {
       
     });
 }
+
+/** 추천모임 start */
+function loadRecGroups() {
+	$.getJSON('../group/mygroups.do', 
+			function(data){
+
+		/** 확인용 로그*/
+		console.log("추천 모임 페이지 로드 : " + data.status);
+		/** 확인용 로그*/
+
+		var recGroups = data.groups
+
+		/**사이드 2번 테이블 제목 삽입 start*/
+		$('#sidebar_contents1 a').attr('href','../group/group_list.html')
+		.html("추천 모임");
+		/**사이드 2번 테이블 제목 삽입 end*/
+		
+		if((data.status) == "success"){
+			
+			if(recGroups.length > 0){
+				require(['text!sidebar/side_table1.html'], function(html){
+					var template = Handlebars.compile(html);
+					$('#sidebar_table1_content').append(template(data));
+					console.log("사이드바 1번 테이블 데이터 : " + $('#sidebar_table1_content').find('tr').length);
+					
+					var mgtRow = $('#sidebar_table1_content').find('tr').length;
+				
+					if(mgtRow < 6) {
+					
+						for ( var i=0; i < ( 6 - mgtRow ); i++ ) {
+							$('#sidebar_table1_content').append("<tr><td class=\"sidebar_title\"></td></tr>");
+						}
+						
+					}
+				});
+			} else {
+				$('#sidebar_table1_content').append("추천 그룹이 없습니다");
+			}
+		}
+	});
+	
+};
+/** 추천 모임 end */
 
 /** 나의 모임 start */
 function loadMyGroups(pageNo) {
