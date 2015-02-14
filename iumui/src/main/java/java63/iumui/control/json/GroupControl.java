@@ -148,54 +148,6 @@ public class GroupControl {
     
     return resultMap;
   }
-	@RequestMapping("/group_board")
-  public Object group_board(int gno, 
-      Model model, 
-      HttpSession session) throws Exception {
-	  
-    HashMap<String,Object> resultMap = new HashMap<>();
-    resultMap.put("status", "success");
-    resultMap.put("groupBoards", groupBoardService.getList(gno));
-    resultMap.put("loginUser", (Member)session.getAttribute("loginUser"));
-    resultMap.put("groupBoardComments", groupBoardService.getComments(gno));
-    return resultMap;
-  }
-
-	@RequestMapping(value="/add_board", method=RequestMethod.POST)
-  public Object add_board(
-      GroupBoard groupBoard,
-      HttpSession session) throws Exception {  
-   
-	  groupBoard.setGroupMemberNo(
-	      groupBoardService.getGroupMemberNo(
-	      groupBoard.getGroupNo(), 
-	      ((Member)session.getAttribute("loginUser")).getMemberNo()));
-	  
-	  groupBoardService.addGroupBoard(groupBoard);
-    
-    HashMap<String,Object> resultMap = new HashMap<>();
-    resultMap.put("status", "success");
-    resultMap.put("no", groupBoard.getNo());
-    
-    return resultMap;
-  }
 	
-	@RequestMapping(value="/add_comment", method=RequestMethod.POST)
-  public Object add_comment(
-      GroupBoardComment groupBoardComment,
-      HttpSession session) throws Exception {  
-   
-	  groupBoardComment.setGroupMemberNo(
-        groupBoardService.getGroupMemberNo(
-            groupBoardComment.getGroupNo(), 
-        ((Member)session.getAttribute("loginUser")).getMemberNo()));
-    
-    groupBoardService.addGroupBoardComment(groupBoardComment);
-    
-    HashMap<String,Object> resultMap = new HashMap<>();
-    resultMap.put("status", "success");
-    resultMap.put("no", groupBoardComment.getNo());
-    
-    return resultMap;
-  }
+	
 }

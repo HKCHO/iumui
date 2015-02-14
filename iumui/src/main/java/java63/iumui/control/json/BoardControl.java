@@ -1,6 +1,7 @@
 package java63.iumui.control.json;
 
 import java.util.HashMap;
+
 import java63.iumui.domain.Board;
 import java63.iumui.domain.BoardComment;
 import java63.iumui.domain.Member;
@@ -23,12 +24,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/json/board")
 public class BoardControl {
   static Logger log = Logger.getLogger(BoardControl.class);
-  static final int PAGE_DEFAULT_SIZE = 5;
+  static final int PAGE_DEFAULT_SIZE = 10;
   
-  @Autowired BoardService        boardService;
+  @Autowired BoardService     boardService;
   @Autowired CategoryService     categoryService;
-  @Autowired LocalService        localService;
-  @Autowired ServletContext      servletContext;
+  @Autowired LocalService     localService;
+  @Autowired ServletContext servletContext;
+  
     
   @RequestMapping("/list_all")
   public Object listAll() throws Exception {
@@ -45,12 +47,19 @@ public class BoardControl {
   public Object list(
       @RequestParam(defaultValue="1") int no,
       @RequestParam(defaultValue="1") int pageNo,
-      @RequestParam(defaultValue="5") int pageSize) throws Exception {
+      @RequestParam(defaultValue="10") int pageSize,
+      String boardSearchText,
+      String boardSelectLocal,
+      HttpSession session) throws Exception {
     
     if (pageSize <= 0)
       pageSize = PAGE_DEFAULT_SIZE;
     
-    int maxPageNo = boardService.getMaxPageNo(no, pageSize);
+    if (boardSelectLocal == "") {
+      boardSelectLocal = ((Member)session.getAttribute("loginUser")).getSelectLocal();
+    }
+    
+    int maxPageNo = boardService.getMaxPageNo(no, pageSize, boardSearchText, boardSelectLocal );
     
     if (pageNo <= 0) pageNo = 1;
     if (pageNo > maxPageNo) pageNo = maxPageNo;
@@ -62,10 +71,26 @@ public class BoardControl {
     resultMap.put("maxPageNo", maxPageNo);
     
     resultMap.put("category", categoryService.getCategory());
-    resultMap.put("board", boardService.getList(no, pageNo, pageSize));
+    resultMap.put("board", boardService.getList(no, pageNo, pageSize, boardSearchText, boardSelectLocal));
     
     return resultMap;
   }
+  
+	@RequestMapping("/recommendgroups")
+	public Object getRecommendGroups ( 
+			HttpSession session,
+			@RequestParam(defaultValue="1") int startIndex) throws Exception {
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		
+		int mno = loginUser.getMemberNo();
+		
+		HashMap<String,Object> resultMap = new HashMap<>();
+		resultMap.put("status", "success");
+		resultMap.put("recgroups", boardService.getRcommendGroups(mno , startIndex));
+		
+		return resultMap;
+	}
   
   @RequestMapping(value="/add", method=RequestMethod.POST)
   public Object add(
@@ -98,14 +123,42 @@ public class BoardControl {
     resultMap.put("status", "success");
     resultMap.put("local_small", localService.getSmallList(no));
     
+    
+    return resultMap;
+  }
+  
+  @RequestMapping("/mylocal_big")
+  public Object mylocal_big(
+      HttpSession session) throws Exception {
+    
+    HashMap<String,Object> resultMap = new HashMap<>();
+    resultMap.put("status", "success");
+    resultMap.put("local_big", localService.getBigList());
+    resultMap.put("mylocal_big", localService.getMyBigZone(
+        ((Member)session.getAttribute("loginUser")).getMemberNo()));
+    
+    return resultMap;
+  }
+  
+  @RequestMapping("/mylocal_small")
+  public Object mylocal_small(
+      @RequestParam(defaultValue="1") int no,
+      HttpSession session) throws Exception {
+    
+    HashMap<String,Object> resultMap = new HashMap<>();
+    resultMap.put("status", "success");
+    resultMap.put("local_small", localService.getSmallList(no));
+    resultMap.put("mylocal_small", localService.getMySmallZone(
+        ((Member)session.getAttribute("loginUser")).getMemberNo()));
+    
+    
     return resultMap;
   }
 
   @RequestMapping("/view")
-  public Object view(
-  		int no, 
-  		Model model,
-  		HttpSession session) throws Exception {
+  public Object view(int no, 
+      Model model, 
+      HttpSession session) throws Exception {
     Board board = boardService.get(no);
     
     HashMap<String,Object> resultMap = new HashMap<>();
@@ -150,8 +203,7 @@ public class BoardControl {
   }
   
   @RequestMapping("/recommend")
-  public Object recommend(
-  		int no, 
+  public Object recommend(int no, 
       HttpSession session) throws Exception {
     boardService.recommend(no, ((Member)session.getAttribute("loginUser")).getMemberNo());
     HashMap<String,Object> resultMap = new HashMap<>();
@@ -180,7 +232,7 @@ public class BoardControl {
         ((Member)session.getAttribute("loginUser")).getMemberNo()));
     
     return resultMap;
-  } 
+  }
   
   @RequestMapping("/request")
   public Object request(int no, 
@@ -194,21 +246,22 @@ public class BoardControl {
   
   @RequestMapping("/req_accept")
   public Object req_accept(int bno, int mno) throws Exception {
-  	boardService.requestAccept(bno, mno);
-  	HashMap<String,Object> resultMap = new HashMap<>();
-  	resultMap.put("status", "success");
-  	
-  	return resultMap;
+    boardService.requestAccept(bno, mno);
+    HashMap<String,Object> resultMap = new HashMap<>();
+    resultMap.put("status", "success");
+    
+    return resultMap;
   }
   
   @RequestMapping("/req_reject")
   public Object req_reject(int bno, int mno) throws Exception {
-  	boardService.requestReject(bno, mno);
-  	HashMap<String, Object> resultMap = new HashMap<>();
-  	resultMap.put("status", "success");
-  	
-  	return resultMap;
+    boardService.requestReject(bno, mno);
+    HashMap<String,Object> resultMap = new HashMap<>();
+    resultMap.put("status", "success");
+    
+    return resultMap;
   }
+
 }
 
 

@@ -2,6 +2,7 @@ package java63.iumui.dao;
 
 import java.util.List;
 import java.util.Map;
+
 import java63.iumui.domain.Board;
 import java63.iumui.domain.BoardComment;
 
@@ -19,6 +20,7 @@ int totalSize();
 public interface BoardDao {
   List<?> selectAllList();
   List<?> selectList(Map<String,Object>paramMap);
+  List<?> selectRecommendedGroup(Map<String,Object> params);
   //
   //void delete(int no);
   
@@ -31,7 +33,9 @@ public interface BoardDao {
   void update(Board board);
   void delete(int no);
   void deleteComments(int no);
-  int totalSize(int no);
+  void deleteRequests(int no);
+  void deleteRecommends(int no);
+  int totalSize(Map<String,Object>paramMap);
   int selectMessageCount(int no);
   List<?> selectMessage(int no);
   

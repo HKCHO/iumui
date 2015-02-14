@@ -9,9 +9,8 @@ var gno;
 var loginUser;
 
 $(function(){
-	$('.header').load('/iumui/common/header.html');
 	$('.footer').load('/iumui/common/footer.html');
-	$('.side_bar').load('../common/sidebar.html');
+	$('.side_bar').load('/iumui/common/sidebar.html');
 	$('.gboard_reply').load('group_board_reply.html');
 	
 	$(document).on('click', '.group_board a', function(){

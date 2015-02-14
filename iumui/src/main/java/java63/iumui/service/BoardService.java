@@ -16,18 +16,42 @@ import org.springframework.transaction.annotation.Transactional;
 public class BoardService {
   @Autowired BoardDao boardDao;
   
-  public List<?> getList(int categoryNo, int pageNo, int pageSize) {
+  public List<?> getList(int categoryNo, int pageNo, int pageSize, String boardSearchText, String boardSelectLocal) {
    
     HashMap<String,Object> paramMap = new HashMap<>();
     paramMap.put("categoryNo", categoryNo);
+    //paramMap.put("startIndex", ((pageNo - 1) * pageSize));
     paramMap.put("pageNo", pageNo);
     paramMap.put("pageSize", pageSize);
+    boardSearchText = "%" + boardSearchText + "%";
+    
+    paramMap.put("boardSearchText", boardSearchText);
+    paramMap.put("boardSelectLocal", boardSelectLocal);
     
     return boardDao.selectList(paramMap);
   }
   
-  public int getMaxPageNo(int no, int pageSize) {
-    int totalSize = boardDao.totalSize(no);
+  public List<?> getRcommendGroups (int mno,int startIndex) {
+  	
+  	HashMap<String,Object> paramMap = new HashMap<>();
+  	paramMap.put("mno", mno);
+  	paramMap.put("startIndex", startIndex);
+  	
+  	return boardDao.selectRecommendedGroup(paramMap);
+  }
+  
+  public int getMaxPageNo(int no, int pageSize, String boardSearchText, String boardSelectLocal) {
+    HashMap<String,Object> paramMap = new HashMap<>();
+    paramMap.put("categoryNo", no);
+    
+    boardSearchText = "%" + boardSearchText + "%";
+    
+    paramMap.put("boardSearchText", boardSearchText);
+    paramMap.put("boardSelectLocal", boardSelectLocal);
+        
+    System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+no + "@@@@@@@@@@@@@@"+boardSearchText+"@@@@@@@@@@@" + boardSelectLocal);
+    int totalSize = boardDao.totalSize(paramMap);
+    System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+totalSize);
     int maxPageNo = totalSize / pageSize;
     if ((totalSize % pageSize) > 0) maxPageNo++;
     
@@ -35,14 +59,14 @@ public class BoardService {
   }
   
   public int getMessageCount(int memberNo) {
-  	int messageCount = boardDao.selectMessageCount(memberNo);
-  	
-  	return messageCount;
+    int messageCount = boardDao.selectMessageCount(memberNo);
+    
+    return messageCount;
   }
   
   public List<?> getMessage(int memberNo) {
-  	
-  	return boardDao.selectMessage(memberNo);
+    
+    return boardDao.selectMessage(memberNo);
   }
   
   public List<?> getAllList() {
@@ -58,12 +82,11 @@ public class BoardService {
   }
   
   @Transactional(
-  		rollbackFor=Exception.class,
-  		propagation=Propagation.REQUIRED)
+      rollbackFor=Exception.class, 
+      propagation=Propagation.REQUIRED)
   public Board get(int boardNo) {
     Board board = boardDao.selectOne(boardNo);
     boardDao.updateClick(boardNo);
-    //board.setPhotoList( boardDao.selectPhoto(boardNo));
     
     return board;
   }
@@ -73,17 +96,17 @@ public class BoardService {
     return boardDao.selectComments(boardNo);
   }
   
-  public List<?> getRequests(int boardNo) {
+public List<?> getRequests(int boardNo) {
     
     return boardDao.selectRequests(boardNo);
   }
+  
   @Transactional(
       rollbackFor=Exception.class, 
       propagation=Propagation.REQUIRED)
   public void addComment(BoardComment boardComment) {
     boardDao.insertComment(boardComment); 
   }
-  
   @Transactional(
       rollbackFor=Exception.class, 
       propagation=Propagation.REQUIRED)
@@ -95,9 +118,12 @@ public class BoardService {
       rollbackFor=Exception.class, 
       propagation=Propagation.REQUIRED)
   public void delete(int boardNo) {
+    boardDao.deleteRequests(boardNo);
+    boardDao.deleteRecommends(boardNo);
     boardDao.deleteComments(boardNo);
     boardDao.delete(boardNo);
   }
+
   @Transactional(
       rollbackFor=Exception.class, 
       propagation=Propagation.REQUIRED)
@@ -108,6 +134,7 @@ public class BoardService {
     
     boardDao.recommend(paramMap);
   }
+  
   @Transactional(
       rollbackFor=Exception.class, 
       propagation=Propagation.REQUIRED)
@@ -118,17 +145,16 @@ public class BoardService {
     
     boardDao.request(paramMap);
   }
-
-
+  
   @Transactional(
-  		rollbackFor=Exception.class, 
-  		propagation=Propagation.REQUIRED)
+      rollbackFor=Exception.class, 
+      propagation=Propagation.REQUIRED)
   public void requestAccept(int boardNo, int memberNo) {
-  	HashMap<String,Object> paramMap = new HashMap<>();
-  	paramMap.put("boardNo", boardNo);
-  	paramMap.put("memberNo", memberNo);
-
-  	boardDao.requestAccept(paramMap);
+    HashMap<String,Object> paramMap = new HashMap<>();
+    paramMap.put("boardNo", boardNo);
+    paramMap.put("memberNo", memberNo);
+    
+    boardDao.requestAccept(paramMap);
   }
   
   @Transactional(
@@ -140,5 +166,5 @@ public class BoardService {
     paramMap.put("memberNo", memberNo);
     
     boardDao.requestReject(paramMap);
-  }  
+  }
 }

@@ -2,7 +2,7 @@ package java63.iumui.control.json;
 
 import java.io.File;
 import java.util.HashMap;
-
+import java.util.List;
 import java63.iumui.dao.MemberDao;
 import java63.iumui.domain.Member;
 import java63.iumui.service.MemberService;
@@ -111,6 +111,17 @@ public class MemberControl {
   	return resultMap;
   }
   
-  
+	@RequestMapping("/thisgroupmembers")
+	public Object getAllGroups ( 
+			int gno) throws Exception {
+		
+		List<?> groupMembers = memberService.getGroupMembers(gno);
+		
+		HashMap<String, Object> resultMap = new HashMap<>();
+		resultMap.put("status","success");
+		resultMap.put("groupMembers", groupMembers);
+		
+		return resultMap;
+	}
 }
 

@@ -183,6 +183,21 @@
 		where x.state=y.state
   </select>
   
+  <resultMap type="map" id="recboardMap">
+    <result column="bmno" property="categoryNo"/>
+    <result column="bno" property="boardNo"/>
+    <result column="bname" property="boardTitle"/>
+    <result column="lcode" property="district"/>
+  </resultMap>
+  
+  <select id="selectRecommendedGroup" parameterType="map" resultMap="recboardMap">
+  	SELECT * FROM (SELECT T1.bmno, T1.bno, T1.bname, T1.lcode 
+										FROM iboard T1, members T2
+										WHERE T2.mno = #{mno} AND T1.lcode = T2.lcode
+										ORDER BY DBMS_RANDOM.RANDOM)
+		WHERE ROWNUM BETWEEN #{startIndex} AND #{startIndex}+5 
+  </select>
+  
   <insert id="request" parameterType="map">
     insert into request
     values (#{boardNo},#{memberNo},0,sysdate)
