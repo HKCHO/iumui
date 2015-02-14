@@ -2,22 +2,27 @@ package java63.iumui.dao;
 
 import java.util.List;
 import java.util.Map;
-
 import java63.iumui.domain.GroupBoard;
 import java63.iumui.domain.GroupBoardComment;
 
 
 public interface GroupBoardDao {
   
-	 List<?> selectList(int no);
-	  List<?> selectComments(int no);
-	  int selectGroupMemberNo(Map<String,Object>paramMap);
-	  void insertGroupBoard(GroupBoard groupBoard);
-	  void insertGroupBoardComment(GroupBoardComment groupBoardComment);
-	  void updateGroupBoard(GroupBoard groupBoard);
-	  void deleteComments(int no);
-	  void delete(int no);
+  List<?> selectList(Map<String,Object>paramMap);
+  List<?> selectComments(Map<String,Object>paramMap);
+  int selectGroupMemberNo(Map<String,Object>paramMap);
+  void insertGroupBoard(GroupBoard groupBoard);
+  void insertGroupBoardComment(GroupBoardComment groupBoardComment);
+  void updateGroupBoard(GroupBoard groupBoard);
+  void deleteFiles(int no);
+  void deleteComments(int no);
+  void delete(int no);
+  void deleteGroupBoard(int no);
+  void deleteGroupFiles(int no);
+  void deleteGroupComments(int no);
+  
   /*
+    
   List<?> selectAllList();
   List<?> selectList(Map<String,Object>paramMap);
   

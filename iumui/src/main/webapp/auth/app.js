@@ -1,5 +1,6 @@
 $(function(){
-  $('.footer').load('../common/footer.html');
+	$('.header').load('/iumui/common/header.html');
+	$('.footer').load('/iumui/common/footer.html');
   
   $('#btnLogin').click(function(event){
     $.post('../json/auth/login.do'

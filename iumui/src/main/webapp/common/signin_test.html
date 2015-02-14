@@ -3,11 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <title>IUMUI_회원가입</title>
-<link rel='stylesheet' href='../css/bootstrap.css'>
-<link rel='stylesheet' href='../css/bootstrap-theme.min.css'>
+<link rel='stylesheet' href='/iumui/common/css/header.css'>
 <link rel='stylesheet' href='../common/css/common.css'>
+<script src='/iumui/js/jquery-1.11.1.js'></script>
 </head>
 <style>
+
+.sex{
+width: 200px;
+height: 200px;
+}
 
 label {
   position:absolute;
@@ -57,7 +62,7 @@ label {
   border: 0px;
   font-size: x-large;
   height : 50px;
-  width: 420px;
+  width: 380px;
 }
 
 #sexDiv {
@@ -65,6 +70,7 @@ label {
   color: #A9A9A9;
 }
 .row_group {
+	background-color: white;
   margin: 0px auto;
   width: 500px;
   border : 1px solid gray;
@@ -83,10 +89,23 @@ label {
   font-size: x-large;
 }
 
+.row_title1 {
+  margin-left: 40px;
+  font-size: x-large;
+}
+
+#name:-webkit-autofill,
+#email:-webkit-autofill {
+background-color: white;
+
+}
+
+
 .sign_row {
-  width : 500px;
+  width : 493px;
   height: 51px;
   margin : 0 auto;
+  background-color: white;
 }
 
 .sign_form {
@@ -105,27 +124,124 @@ label {
   width: 498px;
   height: 50px;
   font-size: x-large;
-  background-color: #999;
+  background-color: #44619D;
+  color: #DDE1EA;
 }
+
+#confirmPhoneNo{
+ margin-left: 25px;
+ background-color: #44619D;
+ color: #DDE1EA;
+}
+
+#confirm{
+ margin-left: 25px;
+ background-color: #44619D;
+ color: #DDE1EA;
+}
+
 
 </style>
 <body>
   <div id='content_container'>
-    <div class='header'></div>
+    <div class='header'>
+      
+       <div class='header'>
+      <!-- 헤더 start -->
+
+  <div id='header'>
+  
+  <div id='logo_div'>
+   <a href="/iumui/main/main.html">IUMUI</a>
+  </div>
+  
+  <table id='menu'>
+   
+    
+     <tr>
+       <td><a href="/iumui/main/main.html">MAIN</a></td>
+       <td><a href="/iumui/invitations/invitations.html?no=1">BOARD</a></td>
+       <td><a href="/iumui/group/group_board.html?gno=">NEWS FEED</a></td>
+     </tr>
+   
+    
+  </table>
+  
+  <!-- 로그인 start -->
+   <div id='login'>
+     <div class='loginContent'>
+     
+       <div class='input_login'>
+         <input type="text" id="inputId" name="id" class="header-control" maxlength="32" placeholder='아이디 or 이메일'>
+         <input type="password" id="inputPwd" name="pw" class="header-control" maxlength="32" placeholder='비밀번호'>
+       </div>
+         <button type="submit" id="loginSubmit" class="btn btn-login" tabindex="4">
+           로그인
+         </button>
+     </div>
+     <div id='loginDown' class='loginDown'>
+       <strong><a href="/iumui/common/signin_test.html" class="link_join ">회원가입</a> &nbsp;&nbsp;|&nbsp;&nbsp;</strong>
+       <strong><a href="/iumui/common/search_id.html" class="link_find_id">아이디 찾기</a></strong>&nbsp;&nbsp;|&nbsp;&nbsp;
+       <strong><a href="/iumui/common/search_pw.html" class="link_find_pw">비밀번호 찾기</a></strong>&nbsp;&nbsp;&nbsp;&nbsp;
+     <input type="checkbox" id="save" />ID 저장<br/>
+     </div>
+   </div>
+   <!-- 로그인 end -->
+   
+   <!-- 로그인 성공 화면 start -->
+  <div id='my_loginBox'>
+    <div class='userContent'>
+      <div class='myphoto'>
+      <img id="myphoto" src="" alt="이미지를 올려주세요" style="width: 52px" 
+         height="52px;">
+      </div>
+      <div id='myloginDisplay'>
+        <div class='myName'></div>
+        <div class='myinfo'>
+          <strong><a href="/iumui/common/mypage_modify.html" class="link_myinform">내 정보</a></strong>
+        </div>
+        <div class='btnOut'>
+          <button type="button" id="logoutSubmit" class="btn btn-login"
+            tabindex="4">로그아웃</button>
+        </div>
+        <div id='myMenu' class='myMenu'>
+          <strong><a href="#" class="link_inform ">알림<span
+              class='informCount'>&nbsp; 3</span></a> &nbsp;&nbsp;|&nbsp;&nbsp;</strong> <strong><a
+            href="/iumui/group/group_list.html" class="link_myGroup">나의 모임</a></strong>&nbsp;&nbsp;|&nbsp;&nbsp;
+          <strong><a href="#" class="link_myCalendar">나의 일정</a></strong>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 로그인 성공 화면 end -->
+  
+    <div id='msg1' class='msgBox alertWindow'>
+      <button id='btnMsgClose' class='pbutton'>확인</button>
+      
+    </div>
+    
+  </div>
+
+  <script src='/iumui/common/js/header.js'></script>
+  <script type="text/javascript" src='../js/jquery-1.11.1.js'></script>
+<!-- 헤더 end -->
+      
+    </div>
+    
+    </div>
     
       <!-- contents start -->
         <div id='conTitle'>
           <h2>회원가입</h2>
         </div>
-        <hr>
         <div class='sign_form'>
-          <form id='sign_form' action="">
+          <form id='sign_form' action="" autocomplete="off">
           
             <div class='row_group'>
               <div id='emailDiv' class="sign_row">
                 <span class="insert_box">
                   <input type="text" id="email" placeholder="이메일 (아이디로 사용합니다.)">
-                  <span class="email_confirm"></span>
+                  <span class="email_confirm" style="margin-left: 10px;""></span>
                 </span>
                 <div id='emailMsg' class='error'></div>
               </div>
@@ -133,7 +249,7 @@ label {
               <div id='passwdDiv' class="sign_row">
                 <span class="insert_box">
                   <input type="password" id="passwd" placeholder="비밀번호">
-                  <span class="passwd1"></span>
+                  <span class="passwd1" style="margin-left: 10px;"></span>
                 </span>
                 <div id='passwdMsg' class='error'></div>
               </div>
@@ -141,7 +257,7 @@ label {
               <div id='passwdChkDiv' class="sign_row">
                 <span class="insert_box">
                   <input type="password" id="passwdChk" placeholder="비밀번호 재확인">
-                  <span class="passwd2"></span>
+                  <span class="passwd2" style="margin-left: 10px;"></span>
                 </span>
                 <div id='passwdChkMsg' class='error'></div>
               </div>
@@ -159,15 +275,24 @@ label {
               <div id='sexDiv' class="sign_row">
                 <span class="insert_box">
                   <span class="row_title">성별</span>
+                   <span class="row_title1"></span>
                   <span class="sex">
-                   <span class='jender'>
+                  
+                  <span style="margin-left: 6.5em;">
+                  <input type="radio" style="width:25px;height:25px;border:1px;" name="sex" value="1">남자
+                  <input type="radio" style="width:25px;height:25px;border:1px;" name="sex" value="2">여자
+                  </span>
+                  
+                   <!-- <span class='jender'>
+                   
+                   
                     <input class="radiobtn" type="radio" id="man" name="sex" value="1">
                     <label id="manLb" for="man" > 남자 </label>
-                   </span>
-                   <span class='jender'>
+                   </span> -->
+                   <!-- <span class='jender'>
                     <input class="radiobtn" type="radio" id="woman" name="sex" value="2">
                     <label id="womanLb" for="woman"> 여자 </label>
-                   </span>
+                   </span> -->
                   </span>
                 </span>
               </div>
@@ -183,8 +308,8 @@ label {
             <div class='row_group certPhone'>
               <div id='phoneNoDiv' class="sign_row">
                 <span class="insert_box">
-                  <input type="text" id="phoneNo" placeholder="휴대전화번호">
-                  <a href='#' id='confirmPhoneNo'>인 증</a>
+                  <input type="text" id="phoneNo" placeholder="휴대전화번호(-없이 입력)" >
+                  <a href='#' onclick="phoneCheck();" id='confirmPhoneNo'>인 증</a>
                 </span>
                 <div id='phoneNoMsg' class='error'></div>
               </div>
@@ -192,7 +317,7 @@ label {
               <div id='confirmNoDiv' class="sign_row">
                 <span class="insert_box">
                   <input type="text" id="confirmNo" placeholder="인증번호">
-                  <a href='#' id='confirm'>확 인</a>
+                  <a href='#' onclick="phoneCheck1();" id='confirm'>확 인</a>
                 </span>
                 <div id='confirmNoMsg' class='error'></div>
               </div>
@@ -204,8 +329,8 @@ label {
             <div class='row_group'>
             <div id='sexDiv' class="sign_row">
                 <span class="insert_box">
-                  <span class="local">지역선택</span>
-                  <span class="sex">
+                  <span class="local" style=" font-size: x-large; ">지역선택</span>
+                  <span class="sex" style="margin-left: 70px;">
                    <span class='local1'>
                    <select id='grp_state' name="state">
                    <option value=''>상위 지역</option></select>&nbsp;&nbsp;
@@ -222,7 +347,7 @@ label {
               <div id="clear"></div>
             
             <div class='row_group'>
-              <button id="signInBtn" type="button" >가입하기</button>
+              <button id="signInBtn" type="button" style=" border-top-width: 1px; border-left-width: 1px;">가입하기</button>
             </div>
           </form>
         </div>
@@ -233,10 +358,8 @@ label {
   </div>
 </body>
 <script src='/iumui/js/jquery-1.11.1.js'></script>
-<script src='/iumui/js/bootstrap.js'></script>
 <script type="text/javascript" src='/iumui/js/handlebars-v2.0.0.js'></script>
 <script type="text/javascript" src='/iumui/js/require.js'></script>
-<script src='/iumui/common/js/signin.js'></script>
 <script src='/iumui/common/js/checkfield.js'></script>
 <script>
  $('.jender label').click(function(event){

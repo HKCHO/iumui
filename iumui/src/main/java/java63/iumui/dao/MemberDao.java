@@ -30,16 +30,17 @@ public interface MemberDao {
   int totalSize();
 
   Member userInfo(int mno); //회원정보 수정
-  
+
   String userInfo1(int mno); //회원정보 수정(로컬주소)
   
   void edit(Member member); //회원정보 수정(수정)
-
-  List<?> selectGroupMembers(int gno);//해당 그룹의 멤버들을 불러옵니다.
+  
+  List<?> selectGroupMembers(int gno);//해당 그룹의 멤버들을 불러옵니다
   
   String getId(Map<String,Object> params); //아이디 찾기
 
   String getPw(Map<String, Object> params); //비밀번호 찾기
-  
+
   Member photoadd1(int mno, MultipartFile userPhotofile);
+  
 }

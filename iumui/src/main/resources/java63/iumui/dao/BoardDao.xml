@@ -37,16 +37,30 @@
   
   <select id="selectList" parameterType="map" 
       resultMap="boardListMap">
-    select bno, bname, btarget_num, req_count, start_date, end_date,uname, good_count, click_count
+    select bno, bname, bintro, btarget_num, req_count, start_date, end_date,uname, good_count, click_count
       from (
-			  select rownum rnum, x.bno bno, x.bname bname, 
+			  select rownum rnum, x.bno bno, x.bname bname, x.bintro bintro,
 			          x.btarget_num btarget_num, z.req_count req_count, 
 			          x.start_date start_date, x.end_date end_date, x.uname uname, 
 			          y.good_count good_count, x.click_count click_count
-			      from (select b.bno bno, b.bname bname, b.btarget_num btarget_num, 
+			      from (select b.bno bno, b.bname bname, b.bintro bintro, b.btarget_num btarget_num, 
 			                 b.start_date start_date, b.end_date end_date, m.uname uname, b.click_count click_count
 			          from iboard b, members m
-			          where b.mno=m.mno and b.bmno=#{categoryNo}
+			          
+									<where> 
+								    <if test="categoryNo != null">
+								         b.mno=m.mno and b.bmno=#{categoryNo}
+								    </if>
+                  <if test='boardSelectLocal != ""'>
+                       and b.lcode=#{boardSelectLocal}
+                  </if> 
+								    <if test='boardSearchText != ""'>
+								        and (b.bname like #{boardSearchText}
+								        or b.bintro like #{boardSearchText}
+								        or m.uname like #{boardSearchText})
+								    </if>
+								  </where>
+		          
 			          order by bno desc) x, 
 			          (select b.bno bno, count(r.bno) good_count from iboard b, recommend r 
 			          where b.bno=r.bno(+) group by b.bno order by b.bno desc) y, 
@@ -56,7 +70,7 @@
         )
     where rnum >= (#{pageNo}-1)*#{pageSize}+1
   </select>
-  
+  <!-- where b.mno=m.mno and b.bmno=#{categoryNo} -->
   <resultMap type="Board" id="boardMap">
     <id column="bno" property="no"/>
     <result column="bmno" property="categoryNo"/>
@@ -70,6 +84,7 @@
     <result column="lcode" property="goodCount"/>
     <result column="mno" property="writerNo"/>
     <result column="uname" property="writer"/>
+    <result column="myphoto" property="writerPhoto"/>
     <result column="good_count" property="goodCount"/>
     <result column="req_count" property="reqCount"/>
   </resultMap>
@@ -77,9 +92,9 @@
   <select id="selectOne" parameterType="int" 
       resultMap="boardMap">
     select x.bno bno, x.bmno bmno, x.bname bname, x.bintro bintro, x.btarget_num btarget_num, x.start_date start_date, 
-        x.end_date end_date, x.reg_date reg_date, x.click_count click_count, x.lcode lcode, x.mno mno, x.uname uname, y.good_count good_count, z.req_count req_count
+        x.end_date end_date, x.reg_date reg_date, x.click_count click_count, x.lcode lcode, x.mno mno, x.uname uname, x.myphoto myphoto, y.good_count good_count, z.req_count req_count
     from (select b.bno bno, b.bmno bmno, b.bname bname, b.bintro bintro, b.btarget_num btarget_num, 
-               b.start_date start_date, b.end_date end_date, b.reg_date reg_date, b.click_count click_count, b.lcode lcode, b.mno mno, m.uname uname
+               b.start_date start_date, b.end_date end_date, b.reg_date reg_date, b.click_count click_count, b.lcode lcode, b.mno mno, m.uname uname, m.myphoto myphoto
         from iboard b, members m
         where b.mno=m.mno
         order by bno desc) x, 
@@ -101,28 +116,45 @@
     <id column="bcno" property="no"/>
     <result column="bno" property="boardNo"/>
     <result column="uname" property="userName"/>
+    <result column="myphoto" property="userPhoto"/>
     <result column="content" property="comment"/>
     <result column="reg_date" property="commentRegDate"/>
   </resultMap>
 
-  <select id="selectComments" parameterType="int" 
-      resultMap="boardCommentMap">
-	  select c.bcno bcno, b.bno bno, m.uname uname, c.content content, c.redate reg_date from iboard b, bcomment c, members m
-	  where c.bno=b.bno and c.mno=m.mno and c.bno=#{value}
-	  order by bcno desc
+  <select id="selectComments" parameterType="int" resultMap="boardCommentMap">
+    select c.bcno bcno, c.bno bno, m.uname uname, m.myphoto myphoto, c.content content, c.redate reg_date 
+    from bcomment c, members m
+    where c.mno=m.mno and c.bno=#{value}
+    order by bcno desc
+  </select>
+  
+  <resultMap type="map" id="recboardMap">
+    <result column="bcategory" property="category"/>
+    <result column="bno" property="boardNo"/>
+    <result column="bname" property="boardTitle"/>
+    <result column="lcode" property="district"/>
+  </resultMap>
+  
+  <select id="selectRecommendedGroup" parameterType="map" resultMap="recboardMap">
+		SELECT * 
+ 			 FROM(SELECT T3.BCATEGORY, T1.BNO BNO, T1.BNAME, T1.LCODE, T2.RCOUNT
+      	  FROM IBOARD T1, (SELECT BNO, COUNT(BNO) RCOUNT FROM RECOMMEND GROUP BY BNO) T2, BMASTER T3 ,MEMBERS T4
+      	  WHERE T1.BNO = T2.BNO AND T3.BMNO = T1.BMNO AND T4.LCODE = T1.LCODE AND T4.MNO = #{mno})
+		WHERE ROWNUM BETWEEN #{startIndex} AND #{startIndex}+5
   </select>
   
   <resultMap type="BoardRequest" id="boardRequestMap">
     <result column="bno" property="boardNo"/>
     <result column="mno" property="memberNo"/>
     <result column="uname" property="userName"/>
+    <result column="myphoto" property="userPhoto"/>
     <result column="status" property="statusNo"/>
     <result column="req_date" property="requestDate"/>
   </resultMap>
 
   <select id="selectRequests" parameterType="int" 
       resultMap="boardRequestMap">
-    select b.bno bno, r.mno mno, m.uname uname, r.state status, r.call req_date from iboard b, request r, members m
+    select b.bno bno, r.mno mno, m.uname uname, m.myphoto myphoto, r.state status, r.call req_date from iboard b, request r, members m
     where r.bno=b.bno and r.mno=m.mno and r.bno=#{value}
   </select>
   
@@ -143,9 +175,31 @@
     delete from bcomment where bno=#{no}
   </delete>
   
-  <select id="totalSize" parameterType="int" resultType="int">
-    select count(bno) from iboard where bmno=#{value}
+  <delete id="deleteRequests" parameterType="int">
+    delete from request where bno=#{no}
+  </delete>
+  
+  <delete id="deleteRecommends" parameterType="int">
+    delete from recommend where bno=#{no}
+  </delete>
+  
+  <select id="totalSize" parameterType="map" resultType="int">
+    select count(b.bno) from iboard b, members m 
+    <where> 
+      <if test="categoryNo != null">
+           b.mno = m.mno and b.bmno=#{categoryNo}
+      </if>
+      <if test='boardSelectLocal != ""'>
+           and b.lcode=#{boardSelectLocal}
+      </if> 
+      <if test='boardSearchText != ""'>
+          and (b.bname like #{boardSearchText}
+          or b.bintro like #{boardSearchText}
+          or m.uname like #{boardSearchText})
+      </if>
+    </where>
   </select>
+  
    <!-- update board set readcount = nvl(readcount,0) + 1 where seq = ? -->
   <insert id="recommend" parameterType="map">
     insert into recommend
@@ -181,21 +235,6 @@
 					  union
 				    select 3, '참여 되었습니다.' FROM dual) y
 		where x.state=y.state
-  </select>
-  
-  <resultMap type="map" id="recboardMap">
-    <result column="bmno" property="categoryNo"/>
-    <result column="bno" property="boardNo"/>
-    <result column="bname" property="boardTitle"/>
-    <result column="lcode" property="district"/>
-  </resultMap>
-  
-  <select id="selectRecommendedGroup" parameterType="map" resultMap="recboardMap">
-  	SELECT * FROM (SELECT T1.bmno, T1.bno, T1.bname, T1.lcode 
-										FROM iboard T1, members T2
-										WHERE T2.mno = #{mno} AND T1.lcode = T2.lcode
-										ORDER BY DBMS_RANDOM.RANDOM)
-		WHERE ROWNUM BETWEEN #{startIndex} AND #{startIndex}+5 
   </select>
   
   <insert id="request" parameterType="map">

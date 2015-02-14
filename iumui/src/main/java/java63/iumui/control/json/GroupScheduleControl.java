@@ -1,7 +1,7 @@
 package java63.iumui.control.json;
 
+import java.util.Date;
 import java.util.HashMap;
-
 import java63.iumui.domain.Member;
 import java63.iumui.service.GroupBoardService;
 import java63.iumui.service.GroupService;
@@ -23,6 +23,22 @@ public class GroupScheduleControl {
 	@Autowired GroupBoardService   groupBoardService;
 	@Autowired ServletContext 		 servletContext;
 	
+	@RequestMapping("/myschedules")
+	public Object getUserSchedules ( 
+			HttpSession session, 
+			int dataSize) throws Exception {
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		
+		int mno = loginUser.getMemberNo();
+		
+		HashMap<String,Object> resultMap = new HashMap<>();
+		resultMap.put("status", "success");
+		resultMap.put("schedules", groupService.getUserSchedules(mno, dataSize));
+		
+		return resultMap;
+	}
+	
 	@RequestMapping("/thisgroupschedule")
 	public Object getThisGroupSchedule (
 			HttpSession session,
@@ -35,6 +51,21 @@ public class GroupScheduleControl {
 		HashMap<String,Object> resultMap = new HashMap<>();
 		resultMap.put("status", "success");
 		resultMap.put("schedules", groupService.getThisGroupSchedules(gno,mno));
+		
+		return resultMap;
+	}
+	
+	@RequestMapping("/allgroupschedule")
+	public Object getAllGroupSchedule (
+			HttpSession session) throws Exception {
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		
+		int mno = loginUser.getMemberNo();
+		
+		HashMap<String,Object> resultMap = new HashMap<>();
+		resultMap.put("status", "success");
+		resultMap.put("schedules", groupService.getAllGroupSchedules(mno));
 		
 		return resultMap;
 	}
@@ -54,4 +85,18 @@ public class GroupScheduleControl {
 		
 		return resultMap;
 	}
+	
+	@RequestMapping("/add_groupschedule")
+  public Object add_groupschedule (
+      int groupNo,
+      Date startDay,
+      Date endDay,
+      String scheduleContent) throws Exception {
+	  
+	  groupService.addGroupSchedule(groupNo, startDay, endDay, scheduleContent);
+    HashMap<String,Object> resultMap = new HashMap<>();
+    resultMap.put("status", "success");
+    
+    return resultMap;
+  }
 }

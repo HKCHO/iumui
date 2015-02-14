@@ -35,7 +35,7 @@ public class Member implements Serializable{
   protected String         selectLocal;
   protected String         localName;
   
-  @Override
+	@Override
   public String toString() {
     return "Member [memberNo=" + memberNo + ", email=" + email + ", password="
         + password + ", userName=" + userName + ", userPhoto=" + userPhoto
@@ -156,6 +156,5 @@ public class Member implements Serializable{
   public void setSelectLocal(String selectLocal) {
     this.selectLocal = selectLocal;
   }
-  
   
 }

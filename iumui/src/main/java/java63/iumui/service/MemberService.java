@@ -74,12 +74,12 @@ public class MemberService {
   }
   
   public String getUserInfo1(int mno) {
-  	String localName = memberDao.userInfo1(mno);
-  	System.out.println("MEMBERSERVICE : " + localName);
-  	
-  	return localName;
+    String localName = memberDao.userInfo1(mno);
+    System.out.println("MEMBERSERVICE : " + localName);
+    
+    return localName;
   }
-  
+
   public List<?> getGroupMembers(int gno) {
   	List<?> groupMembers = memberDao.selectGroupMembers(gno);
   	System.out.println("GetGroupMembers : " + groupMembers);
@@ -128,7 +128,6 @@ public class MemberService {
     memberDao.photoadd1(mno,userPhotofile);
     
   }
-  
 }
 
 

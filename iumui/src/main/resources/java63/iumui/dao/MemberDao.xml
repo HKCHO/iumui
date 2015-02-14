@@ -51,6 +51,7 @@
    WHERE T1.mno = #{memberNo} AND T1.lcode = T2.lcode  
   </select>
   
+  <!--주소 파싱  -->
   <select id="userInfo1" parameterType="int" resultType="string">
    SELECT lname 
    FROM slocal 
@@ -59,13 +60,15 @@
     FROM MEMBERS
     WHERE mno = #{value}) 
   </select>
-  
-  <select id="selectGroupMembers" parameterType="int" resultType="map">
-	  SELECT uname, birth, nick, phone, sex, myphoto, intro, T2.manager_status
+
+	<select id="selectGroupMembers" parameterType="int" resultType="map">
+		SELECT uname, birth, nick, phone, sex, myphoto, intro,
+		T2.manager_status
 		FROM members T1, gmembers T2
-		WHERE T2.gno = #{gno} and T1.MNO = T2.MNO
-  </select>
-  
+		WHERE T2.gno = #{gno} and
+		T1.MNO = T2.MNO
+	</select>
+	
   <update id="edit" parameterType="Member">
     UPDATE MEMBERS 
     SET email = #{email},

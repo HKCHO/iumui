@@ -2,10 +2,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>IUMUI_회원가입</title>
-<link rel='stylesheet' href='../css/bootstrap.css'>
-<link rel='stylesheet' href='../css/bootstrap-theme.min.css'>
+<title>IUMUI_회원정보변경</title>
+<link rel='stylesheet' href='/iumui/common/css/header.css'>
 <link rel='stylesheet' href='../common/css/common.css'>
+<link rel='stylesheet' href='../css/bootstrap.css'>
+<script src='/iumui/js/jquery-1.11.1.js'></script>
 </head>
 <style>
 
@@ -13,7 +14,7 @@ label {
   position:absolute;
   width: 80px;
   text-align: center;
-  border: 1px solid #999;
+  /* border: 1px solid #999; */
   background-color: white;
   padding: 4px 25px;
   display: inline;
@@ -25,6 +26,11 @@ label {
   border-color: #2E6DA4;
 }
 
+.inputRow {
+  width : 50px;
+  display : inline;
+  
+}
 
 #conTitle {
   margin-left: 300px;
@@ -52,21 +58,21 @@ label {
 }
 
 #sign_form input {
-  margin-left: 5px;
+  margin-left: 108px;
+  margin-top: -46px;
   border: 0px;
   font-size: x-large;
   height : 50px;
-  width: 420px;
+  width: 390px;
 }
 
-#sexDiv {
+/* .sexDiv {
   padding: 10px 5px;
   color: #A9A9A9;
-}
+} */
 .row_group {
   margin: 0px auto;
   width: 500px;
-  border : 1px solid gray;
   border-radius: 3px;
 }
 
@@ -83,9 +89,11 @@ label {
 }
 
 .sign_row {
+	
   width : 500px;
   height: 51px;
   margin : 0 auto;
+  
 }
 
 .sign_form {
@@ -100,121 +108,293 @@ label {
   display: block;
 }
 
-#signInBtn {
-  width: 498px;
-  height: 50px;
-  font-size: x-large;
-  background-color: #999;
+.inputBox{
+margin-top: 100px;
+padding-left: 20px;
+
+ 
+}
+.email_confirm{
+
+padding-left: 20px;
+ 
 }
 
+#signInBtn1, #signInBtn2 {
+  width: 246px;
+  height: 50px;
+  font-size: x-large;
+  background-color: #44619D;
+  color: white;
+  /* font-weight: bold; */
+}
+
+#blah{
+width: 130px;
+height: 130px;
+border: 1px solid #ddd;
+margin-top: 30px;
+margin-left: 58px;  
+}
+
+#fileUpload{
+ position: absolute;
+ width: 250px;
+ height: 260px;
+ background-color: white;
+ border: 1px solid #ddd;
+ margin-left: 20px;  
+} 
+
+#userfile{
+  margin-left: -4px;
+  margin-top: 14px;
+  width: 228px;
+}
+
+#uploadbutton{
+ margin-top: 10px;
+ margin-left: 20px;
+}
+
+#logoutSubmit {
+padding-top: 0px;
+padding-right: 5px;
+}
+
+#confirm{
+ position: absolute;
+ margin-left: 322px;
+ background-color: #44619D;
+ color: black;
+}
+
+#zone{
+
+}
+
+/* 
+.searchDiv {
+  margin: 0 8px 0 0;
+}
+ */
+ /* 
+#selectState, #selectCity {
+  width:140px;
+  float:left;
+}
+ */
+ 
+.selectDiv { margin-left:30px; margin-top:8px;}
+
+#selectState{ width:150px;float:left;}
+#spaceSpan{ width:20px;float:left;}
+#selectCity { width:150px;float:left;  }
+
+  
 </style>
 <body>
   <div id='content_container'>
-    <div class='header'></div>
+    <div class='header'>
+      <!-- 헤더 start -->
+
+  <div id='header'>
+  
+  <div id='logo_div'>
+   <a href="/iumui/main/main.html">IUMUI</a>
+  </div>
+  
+  <table id='menu'>
+   
+    
+     <tr>
+       <td><a href="/iumui/main/main.html">MAIN</a></td>
+       <td><a href="/iumui/invitations/invitations.html?no=1">BOARD</a></td>
+       <td><a href="/iumui/group/group_board.html?gno=">NEWS FEED</a></td>
+     </tr>
+   
+    
+  </table>
+  
+  <!-- 로그인 start -->
+   <div id='login'>
+     <div class='loginContent'>
+     
+       <div class='input_login'>
+         <input type="text" id="inputId" name="id" class="header-control" maxlength="32" placeholder='아이디 or 이메일'>
+         <input type="password" id="inputPwd" name="pw" class="header-control" maxlength="32" placeholder='비밀번호'>
+       </div>
+         <button type="submit" id="loginSubmit" class="btn btn-login" tabindex="4">
+           로그인
+         </button>
+     </div>
+     <div id='loginDown' class='loginDown'>
+       <strong><a href="/iumui/common/signin_test.html" class="link_join ">회원가입</a> &nbsp;&nbsp;|&nbsp;&nbsp;</strong>
+       <strong><a href="/iumui/common/search_id.html" class="link_find_id">아이디 찾기</a></strong>&nbsp;&nbsp;|&nbsp;&nbsp;
+       <strong><a href="/iumui/common/search_pw.html" class="link_find_pw">비밀번호 찾기</a></strong>&nbsp;&nbsp;&nbsp;&nbsp;
+     <input type="checkbox" id="save" />ID 저장<br/>
+     </div>
+   </div>
+   <!-- 로그인 end -->
+   
+   <!-- 로그인 성공 화면 start -->
+  <div id='my_loginBox'>
+    <div class='userContent'>
+      <div class='myphoto'>
+      <img id="myphoto" onerror="this.src='../icon/64x64/row 9/1.png';" src="" alt="이미지를 올려주세요" style="width: 52px" 
+         height="52px;">
+      </div>
+      <div id='myloginDisplay'>
+        <div class='myName'></div>
+        <div class='myinfo'>
+          <strong><a href="/iumui/common/mypage_modify.html" class="link_myinform">내 정보</a></strong>
+        </div>
+        <div class='btnOut'>
+          <button type="button" id="logoutSubmit" class="btn btn-login"
+            tabindex="4">로그아웃</button>
+        </div>
+        <div id='myMenu' class='myMenu'>
+          <strong><a href="#" class="link_inform ">알림<span
+              class='informCount'>&nbsp; 3</span></a> &nbsp;&nbsp;|&nbsp;&nbsp;</strong> <strong><a
+            href="/iumui/group/group_list.html" class="link_myGroup">나의 모임</a></strong>&nbsp;&nbsp;|&nbsp;&nbsp;
+          <strong><a href="#" class="link_myCalendar">나의 일정</a></strong>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 로그인 성공 화면 end -->
+  
+    <div id='msg1' class='msgBox alertWindow'>
+      <button id='btnMsgClose' class='pbutton'>확인</button>
+      
+    </div>
+    
+  </div>
+
+  <script src='/iumui/common/js/header.js'></script>
+  <script type="text/javascript" src='../js/jquery-1.11.1.js'></script>
+<!-- 헤더 end -->
+      
+    </div>
     
       <!-- contents start -->
         <div id='conTitle'>
           <h2>정보 수정</h2>
         </div>
-        <hr>
         <div class='sign_form'>
-          <form id='sign_form' action="">
+    
+      <div id="fileUpload">
+      
+      <form id="ajaxform1" action="../json/member/test.do" method="post"
+        enctype="multipart/form-data">
+         <img id="blah" onerror="this.src='../icon/64x64/no-image.png';" src=""
+          alt="이미지를 올려주세요" />
+        <div class='col-sm-10'>
+	        <input type="file" id="userfile" class='form-control' name="userPhotofile"
+	          onchange="readURL(this);" />
+        </div>
+         <input type="submit" id="uploadbutton" class='btn btn-default btn-sm' value="사진등록" />
+      </form>
+      
+      </div>
+
+
+      <form id='sign_form' action="">
           
             <div class='row_group'>
-              <div id='emailDiv' class="sign_row">
-             <span>이메일</span> 
-              <span class="insert_box">
-                  <input type="text" id="email" placeholder="이메일 (아이디로 사용합니다.)">
-                  <span class="email_confirm"></span>
-                </span>
-              </div>
-              <hr>
-              <div id='emailDiv' class="sign_row">
-              <span>이름</span>
-                <span class="insert_box">
-                  <input type="text" id="name" placeholder="이름">
-                  <span class="email_confirm"></span>
-                </span>
-              </div>              
-              <hr>
-              <div id='emailDiv' class="sign_row">
-              <span>닉네임</span>
-                <span class="insert_box">
-                  <input type="text" id="nick" placeholder="닉네임">
-                  <span class="email_confirm"></span>
-                </span>
-              </div>              
-              <hr>
-              <div id='emailDiv' class="sign_row">
-             <span>연락처</span>
-                <span class="insert_box">
-                  <input type="text" id="pnoneNo" placeholder="핸드폰번호">
-                  <span class="email_confirm"></span>
-                </span>
-              </div>              
-              <hr>
-              <div id='emailDiv' class="sign_row">
-              <span>자기소개</span>
-                <span class="insert_box">
-                  <input type="text" id="myself" placeholder="인사말을 입력해주세요">
-                  <span class="email_confirm"></span>
-                </span>
-              </div>              
-              <hr>
-              <div id='emailDiv' class="sign_row">
-              <span>생년월일</span> 
-                <span class="insert_box">
-                  <input type="text" id="birth" placeholder="생년월일">
-                  <span class="email_confirm"></span>
-                </span>
-              </div>              
-              <hr>
-              <div id='emailDiv' class="sign_row">
-              <span>성별</span>
-                <span class="insert_box">
-                  <input type="text" id="sex" placeholder="성별">
-                  <span class="email_confirm"></span>
-                </span>
-              </div>              
-              <hr>
-              <div id='emailDiv' class="sign_row">
-              <span>사는 지역</span>
-                <span class="insert_box">
-                  <input type="text" id="zone" placeholder="지역">
-                  <span class="email_confirm"></span>
-                </span>
-              </div>              
-              <hr>
-              <div id='emailDiv' class="sign_row">
-              <span>내사진</span>
-                <span class="insert_box">
-                  <input type="text" id="myphoto" placeholder="내사진">
-                  <span class="email_confirm"></span>
-                </span>
-              </div>              
-              <hr>
+              <div class="sign_row">
               
-            </div>
-            
-            
+              <div class="inputRow">이메일</div>
+                  <input class="inputBox" type="text" id="email" placeholder="이메일 (아이디로 사용합니다.)"
+                  style="position: absolute; margin-top:0px; margin-left:62px;">
+                  <div class="email_confirm"></div>
+              </div>
+              
+              
+              <div class="sign_row">
+              <div class="inputRow">이름</div>
+                  <input class="inputBox" type="text" id="name" placeholder="이름"
+                  style ="position: absolute; margin-top: 0px; margin-left: 77px;">
+                  <div class="email_confirm"></div>
+              </div>              
+              <div class="sign_row">
+              <div class="inputRow">닉네임</div>
+                  <input class="inputBox" type="text" id="nick" placeholder="닉네임"
+                  style ="position: absolute; margin-top: 0px; margin-left: 62px;">
+                  <div class="email_confirm"></div>
+              </div>              
+              <div class="sign_row">
+             <div class="inputRow">연락처</div>
+                  <input class="inputBox" type="text" id="pnoneNo" placeholder="핸드폰번호"
+                  style ="position: absolute; margin-top: 0px; margin-left: 62px;">
+                  <div class="email_confirm"></div>
+              </div>     
+                       
+              <div class="sign_row">
+              <div class="inputRow">자기소개</div>
+                  <input class="inputBox" type="text" id="myself" placeholder="인사말을 입력해주세요"
+                  style ="position: absolute; margin-top: 0px; margin-left: 47px;">
+                  <div class="email_confirm"></div>
+              </div>
+                            
+              <div class="sign_row">
+              <div class="inputRow">생년월일</div> 
+                  <input class="inputBox" type="text" id="birth" placeholder="생년월일"
+                  style ="position: absolute; margin-top: 0px; margin-left: 47px;">
+                  <div class="email_confirm"></div>
+              </div>              
+                        
             <!--지역 입력  -->
+              <div class="sign_row">
+              <div id='local' class="inputRow">활동지역</div>
+	              
+              <div type="text" style ="margin-right: 3px; background-color:white; float:right; height: 50px; width: 390px; border:1px solid white;">
+                  <div class="form-group form-group-sm selectDiv">
+                  <select id='selectState' name="state" class="form-control form-group-sm selectLocal"></select><span id='spaceSpan'> &nbsp; </span>
+                  <select id='selectCity' name="city" class="form-control form-group-sm selectLocal"></select>
+                </div>
+              </div>
+              </div>    
+            <!-- 
+            지역 수정 
+            <div class='row_group'>
+            <div id='sexDiv' class="sign_row">
+                <div class="insert_box">
+                  <div class="local" style="color: #4e5665;">지역선택</div>
+                  <div class="sex" style="margin-left: 100px;margin-top: -31px;/* margin-bottom: -36px; */background-color: white;width: 392px;height: 50px;position: absolute;">
+                   <div class='local1'>
+                   <select id='grp_state' name="state"
+                   style="position: absolute; margin-top: 12px; margin-left: 31px;">
+                   <option value=''>상위 지역</option></select>&nbsp;&nbsp;
+                   </div>
+                   <div class='local2'>
+                    <select id='selectLocal' name="dist"
+                    style="position: absolute; margin-top: -10px; margin-left: 203px;">
+                    <option value=''>하위 지역</option></select>
+                   </div>
+                  </div>
+                </div>
+              </div>
+              </div>  
+             -->
             
+            </div>
               
               <div id="clear"></div>
             
             <div class='row_group'>
-              <button id="signInBtn" type="button" >수정하기</button>
+              <button id="signInBtn1" type="button" onclick="button_event();" >수정</button>
+              <button id="signInBtn2" type="button" >취소</button>     
             </div>
+           
           </form>
         </div>
       <!-- contents end  -->
       
-       
-    <div class='footer'></div>
   </div>
 </body>
-<script src='/iumui/js/jquery-1.11.1.js'></script>
-<script src='/iumui/js/bootstrap.js'></script>
+
+<script src='/iumui/js/jquery.form.js'></script>
 <script type="text/javascript" src='/iumui/js/handlebars-v2.0.0.js'></script>
 <script type="text/javascript" src='/iumui/js/require.js'></script>
 <script src='/iumui/common/js/mypage_modify.js'></script>

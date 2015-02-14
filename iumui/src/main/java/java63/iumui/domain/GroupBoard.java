@@ -13,6 +13,7 @@ public class GroupBoard implements Serializable{
   protected String groupName;
   protected int memberNo;
   protected String userName;
+  protected String userPhoto;
   protected String intro;
   protected String content;
   protected Date regDate;
@@ -21,8 +22,15 @@ public class GroupBoard implements Serializable{
   public String toString() {
     return "GroupBoard [no=" + no + ", groupMemberNo=" + groupMemberNo
         + ", groupNo=" + groupNo + ", groupName=" + groupName + ", memberNo="
-        + memberNo + ", userName=" + userName + ", intro=" + intro
-        + ", content=" + content + ", regDate=" + regDate + "]";
+        + memberNo + ", userName=" + userName + ", userPhoto=" + userPhoto
+        + ", intro=" + intro + ", content=" + content + ", regDate=" + regDate
+        + "]";
+  }
+  public String getUserPhoto() {
+    return userPhoto;
+  }
+  public void setUserPhoto(String userPhoto) {
+    this.userPhoto = userPhoto;
   }
   public int getNo() {
     return no;
