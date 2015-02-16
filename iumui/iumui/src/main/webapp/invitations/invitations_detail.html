@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>게시판 보기</title>
+<link rel='stylesheet' href='../common/css/common.css'>
+<link rel='stylesheet' href='css/invitations_detail.css'>
+<link rel='stylesheet' href='../common/css/search_bar.css'>
+<link rel='stylesheet' href='../css/bootstrap.css'>
+<style>
+<!-- 스타일 -->
+</style>
+</head>
+<body>
+<div id='content_container'>
+
+<!-- header start -->
+	<div class='header'></div>
+<!-- header end -->
+
+
+<div id="board_container">
+<!-- bulletin start -->
+	<div id="board_main" class='row' style="margin:0px;">
+		
+			<!-- 
+			<div id="categories">
+			 <table id="category_tab" class='table-hover'></table>
+     </div>
+      -->
+			<div id="board_set">
+			
+	
+		   <div id="board_summary">
+		   
+	       <div class='writer_photo'>
+	         
+	           <img id='main_photo' class='photo' onerror="this.src='../icon/64x64/row 9/1.png';" src="" alt="이미지를 올려주세요">
+	        
+	       </div>
+	       
+	       <div class='board_info'>
+	         <div class='top_style'>
+		         <div id='title' class='title'></div>
+		         <div id='regDate' class='regDate'></div>
+	         </div>
+	         <div class='btnBModDel'>
+             <button type="button" id="btnBoardMod" class="btn btn-default btn-xs board_writer">
+               수정
+             </button> &nbsp; 
+             <button type="button" id="btnBoardDel" class="btn btn-default btn-xs board_writer">
+                삭제
+              </button> &nbsp; 
+           </div>
+	         
+	         <div class='binfo'><div id='writer'></div><div id='targetNumber'></div></div>
+	         <div class='binfo'><div id='startDate'></div><div id='endDate'></div></div>
+	         
+	       </div>
+		   </div>
+		   
+		   <div class="board_content">
+		   
+		   <div id='board_content'></div>
+		   
+		    <div id='modify_content' style='text-align:center;display:none;'>
+          <textarea id='bcontent' class="form-control form-group-sm"></textarea>
+	        <div style='padding:10px;'>
+	            <button type="button" id="btnBmod" class="btn btn-default btn-xs">수정</button> &nbsp; 
+	            <button type="button" id="btnbCancel" class="btn btn-default btn-xs">취소</button>
+	        </div>
+        </div>
+        
+		   </div>
+		   
+		   <div id='requestSet' class='board_writer'></div>
+		   
+		   <div class='board_content board_button'>
+		   
+         <button type="button" id="btncomment" class="btn btn-default btn-xs">
+           &nbsp; 댓글 &nbsp; 
+         </button><span> &nbsp; </span>
+		      <button type="button" id="btnRecommend" class="btn btn-default btn-xs">
+           
+         </button><span> &nbsp; </span>
+         <button type="button" id="btnRequest" class="btn btn-default btn-xs">
+           
+         </button><span> &nbsp; </span>
+         <button type="button" id="btnBoard" class="btn btn-default btn-xs">
+           &nbsp; 목록 &nbsp; 
+         </button>
+         
+		   </div>
+		   
+		   <div id='commentInput' class='board_comment' style='display:none;'>
+        
+         <div style='text-align:center; padding:10px;'>
+           <div id='c' ><textarea id='ccontent' class="form-control form-group-sm"></textarea></div>
+           <div>
+            <button type="button" id="btnCReg" class="btn btn-default btn-xs">등록</button>
+            <button type="button" id="btncCancel" class="btn btn-default btn-xs">취소</button>
+           </div>
+          </div>
+        </div>
+		   
+		  <div id='commentSet'></div>
+		  
+		</div>
+			
+			
+				
+		<!-- 검색바 start -->
+		<!-- <div class="search_bar"></div> -->
+		<!-- 검색바 end -->
+		
+		</div>
+<!-- bulletin end -->
+
+<!-- 사이드바 start -->
+<div class='side_bar'></div>
+<!-- 사이드바 end -->
+</div>
+	
+<!-- create_group start -->
+<div class='create_group'></div>
+<!-- create_group end -->
+	
+<!-- footer start -->	
+<div class='footer'></div>
+<!-- footer end -->
+</div>
+
+</body>
+<script src='../js/jquery-1.11.1.js'></script>
+<script src='../js/bootstrap.js'></script>
+<script type="text/javascript" src='/iumui/js/handlebars-v2.0.0.js'></script>
+<script type="text/javascript" src='/iumui/js/require.js'></script>
+<script src='/iumui/invitations/js/invitations_detail.js'></script>
+<script>
+</script>
+</html>

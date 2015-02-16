@@ -1,0 +1,17 @@
+{{#each boardComments}}
+<div id='comment{{no}}' class='board_comment'>
+         <div class='writer_photo'>
+          
+            <img class='photo' onerror='this.src="../icon/64x64/row 9/1.png";' src='/iumui/fileupload/{{userPhoto}}'>
+         
+         </div>
+           
+        <div class='board_info'>
+          <div class='top_style'>
+            <div id='commenter{{no}}' class='commenter'>{{userName}}</div>
+            <div id='cregDate{{no}}' class='regDate cregDate'>{{commentRegDate}}</div>
+          </div>
+          <div id='c{{no}}' class='comment_content'>{{comment}}</div>
+       </div>
+    </div>
+{{/each}}

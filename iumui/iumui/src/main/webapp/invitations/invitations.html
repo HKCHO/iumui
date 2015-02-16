@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>게시판 보기</title>
+<link rel='stylesheet' href='../common/css/common.css'>
+<link rel='stylesheet' href='css/invitations.css'>
+<!-- <link rel='stylesheet' href='../common/css/search_bar.css'> -->
+</head>
+<body>
+<div id='content_container'>
+
+<!-- header start -->
+	<div class='header'></div>
+<!-- header end -->
+
+<div id="contents">
+<div id="board_content">
+<!-- bulletin start -->
+	<div id="board_main">
+		
+			
+			<div id="categories">
+			<table id="category_tab" class='table-hover'></table>
+			<button id="button_create" type="button" class="btn btn-primary btn-sm">
+        모임만들기
+     </button>
+     </div>
+       
+     <!-- 게시판 내용 start -->
+			<div id="board_list"></div>
+			<!-- 게시판 내용 end -->
+
+			<div id="pagingBar">
+				    <div class="mw_basic_page"></div>
+			</div>
+     
+     
+		<!-- 검색바 start -->
+<div class="search_bar">
+		
+<div class="form-group form-group-sm searchDiv">
+
+  <select id="selectState" name="state" class="form-control form-group-sm searchDiv"></select> 
+  <select id="selectCity" name="city" class="form-control form-group-sm searchDiv"></select> 
+  
+  <input id='keyword' class="form-control form-group-sm" type="text" placeholder="검색어를 입력하세요"/>
+  <button id='searchBtn' type='button' class="btn searchBtn">검색</button>
+</div>
+		
+</div>
+		<!-- 검색바 end -->
+		
+		</div>
+<!-- bulletin end -->
+</div>
+<!-- 사이드바 start -->
+<div class='side_bar'></div>
+<!-- 사이드바 end -->
+</div>
+	
+<!-- create_group start -->
+<div class='create_group'></div>
+<!-- create_group end -->
+	
+<!-- footer start -->	
+<div class='footer'></div>
+<!-- footer end -->
+	</div>
+</body>
+<script src='../js/jquery-1.11.1.js'></script>
+<script src='../js/bootstrap.js'></script>
+<script type="text/javascript" src='/iumui/js/handlebars-v2.0.0.js'></script>
+<script type="text/javascript" src='/iumui/js/require.js'></script>
+<script src='/iumui/invitations/js/invitations.js'></script>
+</html>

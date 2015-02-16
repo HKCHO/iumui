@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="java63.iumui.dao.CategoryDao">
+
+  <resultMap type="map" id="categoryListMap">
+    <id column="bmno" property="categoryNo"/>
+    <result column="bcategory" property="categoryName"/>
+  </resultMap>
+
+  <select id="selectCategory" resultMap="categoryListMap">
+    SELECT bmno, bcategory FROM bmaster ORDER BY bmno
+  </select>
+
+  <resultMap type="map" id="mainDisplayMap">
+    <id column="num" property="categoryNumber"/>
+    <result column="ctg" property="categoryName"/>
+    <result column="t1" property="content1"/>
+    <result column="t2" property="content2"/>
+    <result column="t3" property="content3"/>
+    <result column="t4" property="content4"/>
+    <result column="t5" property="content5"/>
+    <result column="t6" property="content6"/>
+    <result column="t7" property="content7"/>
+    <result column="n1" property="boardNo1"/>
+    <result column="n2" property="boardNo2"/>
+    <result column="n3" property="boardNo3"/>
+    <result column="n4" property="boardNo4"/>
+    <result column="n5" property="boardNo5"/>
+    <result column="n6" property="boardNo6"/>
+    <result column="n7" property="boardNo7"/>
+  </resultMap>
+
+  <select id="selectMainDisplay" resultMap="mainDisplayMap">
+    SELECT bc.bmno as num, bc.bcategory as ctg
+		, MIN(CASE WHEN bc.rn = 1 THEN bc.bname END) AS t1 , MIN(CASE WHEN bc.rn = 1 THEN bc.bno END) AS n1
+        , MIN(CASE WHEN bc.rn = 2 THEN bc.bname END) AS t2 , MIN(CASE WHEN bc.rn = 2 THEN bc.bno END) AS n2
+        , MIN(CASE WHEN bc.rn = 3 THEN bc.bname END) AS t3 , MIN(CASE WHEN bc.rn = 3 THEN bc.bno END) AS n3
+        , MIN(CASE WHEN bc.rn = 4 THEN bc.bname END) AS t4 , MIN(CASE WHEN bc.rn = 4 THEN bc.bno END) AS n4
+        , MIN(CASE WHEN bc.rn = 5 THEN bc.bname END) AS t5 , MIN(CASE WHEN bc.rn = 5 THEN bc.bno END) AS n5
+        , MIN(CASE WHEN bc.rn = 6 THEN bc.bname END) AS t6 , MIN(CASE WHEN bc.rn = 6 THEN bc.bno END) AS n6
+        , MIN(CASE WHEN bc.rn = 7 THEN bc.bname END) AS t7 , MIN(CASE WHEN bc.rn = 7 THEN bc.bno END) AS n7
+    FROM (
+	        SELECT @rn:=CASE WHEN @bb.bcategory=bb.bcategory THEN @rn+1 ELSE 1 END AS rn
+	    		  , @bb.bmno:=bb.bmno AS bmno
+		    	  , @bb.bcategory:=bb.bcategory AS bcategory
+		    	  , @bb.bno:=bb.bno AS bno
+		    	  , @bb.bname:=bb.bname AS bname
+	        FROM (
+	               SELECT i.bmno , bm.bcategory , i.bno , i.bname
+	               FROM iboard as i , bmaster as bm
+	               WHERE i.bmno = bm.bmno AND
+	                (
+	                 SELECT count(*)
+	                 FROM iboard as b
+	                 WHERE b.bmno = i.bmno AND b.bno > i.bno
+	                ) &lt; 7
+	               ORDER BY bmno,bno DESC
+	             ) as bb, (SELECT @rn:=0,@bb.bcategory:='') AS t
+	        GROUP BY bb.bmno , bb.bno
+				 ) bc
+			GROUP BY bc.bcategory
+			ORDER BY bc.bmno ASC;   			
+  </select>
+  
+  
+  <select id="selectTablehead" resultMap="mainDisplayMap">
+  	SELECT * 
+  	FROM bmaster
+  </select>
+    
+    
+   <!--  SELECT c.bcategory categoryName, b.bmno boardNo , b.bname content 
+    FROM iboard AS b, bmaster c
+    WHERE b.bmno = c.bmno -->
+    
+ 
+</mapper>
+

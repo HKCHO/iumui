@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="java63.iumui.dao.GroupBoardDao">
+
+  <resultMap type="GroupBoard" id="groupBoardMap">
+    <id column="gbno" property="no"/>
+    <result column="grouping_no" property="groupMemberNo"/>
+    <result column="gno" property="groupNo"/>
+    <result column="gname" property="groupName"/>
+    <result column="mno" property="memberNo"/>
+    <result column="uname" property="userName"/>
+    <result column="intro" property="intro"/>
+    <result column="myphoto" property="userPhoto"/>
+    <result column="gbcontent" property="content"/>
+    <result column="reg_date" property="regDate"/>
+  </resultMap>
+  
+  <select id="selectList" parameterType="map" resultMap="groupBoardMap">
+    SELECT b.gbno gbno, b.grouping_no grouping_no, g.gno gno, g.gname gname, gm.mno mno, m.uname uname, m.intro intro, m.myphoto myphoto, b.gbcontent gbcontent, b.reg_date reg_date
+    FROM members m, ggroup g, gmembers gm, gboard b
+    WHERE g.gno=gm.gno and b.grouping_no=gm.grouping_no and m.mno=gm.mno 
+      
+    <choose> 
+      <when test='groupNo > 0'>
+           AND gm.gno=#{groupNo}
+      </when>
+      <otherwise>
+           AND gm.gno IN (SELECT gno FROM gmembers WHERE mno=#{memberNo})
+      </otherwise>
+    </choose>
+    
+    ORDER BY b.gbno DESC
+  </select>
+ 
+  <resultMap type="GroupBoardComment" id="boardCommentMap">
+    <id column="gbcno" property="no"/>
+    <result column="gbno" property="groupBoardNo"/>
+    <result column="grouping_no" property="groupMemberNo"/>
+    <result column="gno" property="groupNo"/>
+    <result column="gname" property="groupName"/>
+    <result column="mno" property="memberNo"/>
+    <result column="uname" property="userName"/>
+    <result column="myphoto" property="userPhoto"/>
+    <result column="content" property="content"/>
+    <result column="reg_date" property="regDate"/>
+  </resultMap>
+
+  <select id="selectComments" parameterType="map" resultMap="boardCommentMap">
+		SELECT c.gbcno gbcno, c.gbno gbno, c.grouping_no grouping_no, g.gno gno, g.gname gname, gm.mno mno, m.uname uname, m.myphoto myphoto, c.content content, c.reg_date reg_date
+		FROM members m, ggroup g, gmembers gm, gcomment c 
+		WHERE g.gno=gm.gno AND c.grouping_no=gm.grouping_no AND m.mno=gm.mno
+		
+		<choose> 
+      <when test='groupNo > 0'>
+           AND gm.gno=#{groupNo}
+      </when>
+      <otherwise>
+           AND gm.gno IN (SELECT gno FROM gmembers WHERE mno=#{memberNo})
+      </otherwise>
+    </choose>
+  </select>
+  
+  <select id="selectGroupMemberNo" parameterType="map" resultType="int">
+    SELECT grouping_no FROM gmembers WHERE gno=#{groupNo} AND mno=#{memberNo}
+  </select>
+  
+  <insert id="insertGroupBoard" parameterType="GroupBoard">
+    INSERT INTO gboard
+    VALUES (null , #{groupMemberNo} , #{content} , sysdate)
+  </insert>
+  
+  <insert id="insertGroupBoardComment" parameterType="GroupBoardComment">
+    INSERT INTO gcomment
+    VALUES (null, #{groupBoardNo}, #{groupMemberNo}, #{content}, sysdate)
+  </insert>
+  
+  <insert id="updateGroupBoard" parameterType="GroupBoard">
+    UPDATE gboard SET gbcontent=#{content} WHERE gbno=#{no}
+  </insert>
+  
+  <delete id="delete" parameterType="int">
+    DELETE FROM gboard WHERE gbno=#{no}
+  </delete>
+  
+  <delete id="deleteComments" parameterType="int">
+    DELETE FROM gcomment WHERE gbno=#{no}
+  </delete>
+  
+  <delete id="deleteFiles" parameterType="int">
+    DELETE FROM gfile WHERE gbno=#{no}
+  </delete>
+  
+  
+  <delete id="deleteGroupBoard" parameterType="int">
+    DELETE FROM gboard 
+    WHERE grouping_no IN 
+        (SELECT grouping_no FROM gmembers WHERE gno=#{no})
+  </delete>
+  
+  <delete id="deleteGroupComments" parameterType="int">
+    DELETE FROM gcomment 
+    WHERE gbno IN (SELECT gbno 
+    							 FROM gboard 
+    							 WHERE grouping_no IN (SELECT grouping_no 
+    							 											 FROM gmembers 
+    							 											 WHERE gno=#{no})
+    							 )
+  </delete>
+  
+  <delete id="deleteGroupFiles" parameterType="int">
+    DELETE FROM gfile 
+    WHERE gbno IN (SELECT gbno 
+    							 FROM gboard 
+    							 WHERE grouping_no IN (SELECT grouping_no 
+    							 											 FROM gmembers 
+    							 											 WHERE gno=#{no})
+    							 )
+  </delete>
+</mapper>
