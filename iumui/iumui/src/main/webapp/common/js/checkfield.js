@@ -16,7 +16,7 @@ $(function(){
 //지역 검색
 function loadLocalList() {
   
-  $.getJSON('../json/board/local_big.do', 
+  $.getJSON('../board/local_big.do', 
     function(data){
     
       console.log(data);
@@ -31,7 +31,7 @@ function loadLocalList() {
 
 $('#grp_state').change(function(){
     
-  $.getJSON('../json/board/local_small.do?no=' + $(this).val(), 
+  $.getJSON('../board/local_small.do?no=' + $(this).val(), 
       function(data){
       
         //console.log(data);
@@ -166,11 +166,7 @@ $('#grp_state').change(function(){
       alert('폰번호 입력 오류.');
       $('#phoneNo').focus();
       return false;       
-    }  /*else if($('#selectLocal').val() != ''){  //지역입력
-      alert('지역 입력 오류.');
-      $('#selectLocal').focus();
-      return false;       
-    }     */  
+    } 
     
     return true;
    }

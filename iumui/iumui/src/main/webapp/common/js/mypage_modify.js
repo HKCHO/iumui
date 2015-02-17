@@ -78,7 +78,7 @@ function loadUserList() {
 }
 
 function loadLocalList() {
-  $.getJSON('../json/board/mylocal_big.do', 
+  $.getJSON('../board/mylocal_big.do', 
     function(data){
   		//console.log(data);
   	
@@ -119,52 +119,6 @@ $('#selectState').change(function(){
 	    });
 });
 
-
-/*
-//회원정보 빅로컬 서치
-function loadLocalList() {
-  
-  $.getJSON('../json/member/user_info1.do',
-      
-    function(data){
-    bigLocalName = data.localName;
-      
-    });
-}
-
-//지역 검색
-function loadLocalList1() {
-  
-  $.getJSON('../json/board/local_big.do', 
-    function(data){
-    
-      console.log(data);
-    
-      require(['text!templates/local-big.html'], function(html){
-        var template = Handlebars.compile(html);
-        $('#grp_state').html( template(data) );
-      });
-      
-    });
-}
-
-
-$('#grp_state').change(function(){
-  
-  $.getJSON('../json/board/local_small.do?no=' + $(this).val(), 
-      function(data){
-      
-        //console.log(data);
-      
-        require(['text!templates/local-small.html'], function(html){
-          var template = Handlebars.compile(html);
-          $('#selectLocal').html( template(data) );
-          
-          
-        });
-      });
-});
-*/
 
 //성별 체크   
 $('input[name=gender]:radio').click(function(event){
@@ -208,29 +162,11 @@ $('input[name=gender]:radio').click(function(event){
      }
      }
    
-   /*$('#signInBtn1').click(function(){
-     if(confirm("수정하시겠습니까?") == true){
-       console.log("응");
-     updateMember(no);
-     }else{
-       console.log("취소");
-       return;
-       
-     }
-     
-   });*/
-       
    function updateMember() {
      console.log($('#userfile').val());
-    /* console.log(no);
-     console.log(birthdate);
-     console.log(member.sex);
-     console.log(member.selectLocal);*/
      console.log($('#birth').val());
-    // afterBirth = $('#birth').val(date[0]+"/"+date[1]+"/"+date[2]);
-    // console.log(afterBirth);
-     date = ($('#birth').val()).split('/');
      
+     date = ($('#birth').val()).split('/');
      
      $.post('../json/member/update.do'
          , {
@@ -295,32 +231,4 @@ $('input[name=gender]:radio').click(function(event){
            });
      
    });
-/*   
-   //지역 변경
-   function changeLocal() {
-     $("#confirm").hide();
-     
-     if($("#sexDiv").css("display") == "none"){
-       $("#sexDiv").show();
-   } else {
-       $("#sexDiv").hide();
-   }//end else
-     
-     
-     
-     
-     $('#sexDiv').focus();
-    
-   }
-   
-   $('#selectLocal').focusout(function(){
-     var selectLocal = ($('#selectLocal').val());
-     console.log(selectLocal);
-     
-   });
-*/
-   
-  
-     
-    
   

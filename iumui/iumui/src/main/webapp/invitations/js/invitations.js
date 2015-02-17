@@ -11,7 +11,6 @@ $(function(){
 	$('.header').load('/iumui/common/header.html');
 	$('.side_bar').load('/iumui/common/sidebar.html');
 	$('.footer').load('/iumui/common/footer.html');
-/*	$('.search_bar').load('/iumui/common/search_bar.html');*/
 	
 	loadRecGroups();//main_sidebar_table1
 	loadMyGroups(1);
@@ -23,6 +22,7 @@ $(function(){
 		category_number = $(this).attr('cat-no');
 		loadBoardList(1, boardSearchText, boardSelectLocal);
   });
+	
 	
 	var address = unescape(location.href);
 	console.log(address);
@@ -52,7 +52,7 @@ $(function(){
 });
 
 function loadLocalList() {
-  $.getJSON('../json/board/mylocal_big.do', 
+  $.getJSON('../board/mylocal_big.do', 
     function(data){
   		//console.log(data);
   	
@@ -66,10 +66,8 @@ function loadLocalList() {
 }
 
 function loadSmallLocalList() {
-	//console.log($('#selectState option:selected').val());
-	$.getJSON('../json/board/mylocal_small.do?no=' + $('#selectState option:selected').val(), 
+	$.getJSON('../board/mylocal_small.do?no=' + $('#selectState option:selected').val(), 
 	    function(data){
-	  		//console.log(data);
 		
 		  	require(['text!templates/local-small.html'], function(html){
 		      var template = Handlebars.compile(html);
@@ -82,10 +80,8 @@ function loadSmallLocalList() {
 
 $('#selectState').change(function(){
 	
-	$.getJSON('../json/board/local_small.do?no=' + $('#selectState option:selected').val(), 
+	$.getJSON('../board/local_small.do?no=' + $('#selectState option:selected').val(), 
 	    function(data){
-	  		//console.log(data);
-	  	
 		  	require(['text!templates/local-small.html'], function(html){
 		      var template = Handlebars.compile(html);
 		      $('#selectCity').html( template(data) );
@@ -159,7 +155,7 @@ function setPageNo(currPageNo, maxPageNo) {
 
 /** 추천모임 start */
 function loadRecGroups() {
-	$.getJSON('../json/board/recommendgroups.do?startIndex=1', 
+	$.getJSON('../board/recommendgroups.do?startIndex=1', 
 			function(data){
 
 		/** 확인용 로그*/
