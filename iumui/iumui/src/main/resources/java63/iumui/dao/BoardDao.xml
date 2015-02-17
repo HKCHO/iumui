@@ -135,8 +135,8 @@
 		SELECT * 
  			 FROM(SELECT T3.bcategory, T1.bno bno, T1.bname, T1.lcode, T2.rcount
       	  FROM iboard T1, (SELECT bno, COUNT(bno) rcount FROM recommend GROUP BY bno) T2, bmaster T3 ,members T4
-      	  WHERE T1.bno = T2.bno AND T3.bmno = T1.bmno AND T4.lcode = T1.lcode AND T4.mno = #{mno})
-		WHERE ROWNUM BETWEEN #{startIndex} AND #{startIndex}+5
+      	  WHERE T1.bno = T2.bno AND T3.bmno = T1.bmno AND T4.lcode = T1.lcode AND T4.mno = #{mno}) tmp
+		LIMIT #{startIndex} , #{endIndex}
   </select>
   
   <resultMap type="BoardRequest" id="boardRequestMap">

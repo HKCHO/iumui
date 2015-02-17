@@ -18,8 +18,15 @@ public class GroupService {
   @Autowired GroupDao groupDao; 
   
   public List<?> getUserGroups(int pageNo, int mno) {
+  	
+  	int startIndex = ((pageNo -1) * 6);
+  	int endIndex = startIndex + 6;
+  	
+  	if (startIndex < 0 ) { startIndex = 0; endIndex = 6;}
+  	
   	HashMap<String,Object> paramMap = new HashMap<>();
-  	paramMap.put("startIndex", ((pageNo - 1) * 6));
+  	paramMap.put("startIndex", startIndex);
+  	paramMap.put("endIndex", endIndex);
   	paramMap.put("mno", mno);
   	
   	return groupDao.selectUserGroups(paramMap);

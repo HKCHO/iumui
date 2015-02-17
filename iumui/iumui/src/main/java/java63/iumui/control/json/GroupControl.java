@@ -1,7 +1,6 @@
 package java63.iumui.control.json;
 
 import java.util.HashMap;
-
 import java63.iumui.domain.Group;
 import java63.iumui.domain.GroupMember;
 import java63.iumui.domain.Member;
@@ -12,13 +11,12 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@Controller("json.groupControl")
-@RequestMapping("/group")
+//@Controller("json.groupControl")
+//@RequestMapping("/group")
 public class GroupControl {
 	static Logger log = Logger.getLogger(GroupControl.class);
 

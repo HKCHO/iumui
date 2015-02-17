@@ -40,8 +40,8 @@
   </select>
   
   <insert id="insert" parameterType="Member">
-    INSERT INTO members(mno,email,pwd,uname,sex,birth,phone,lcode) 
-    VALUES (mno.nextval,#{email}, #{password}, #{userName}, #{sex}, #{birthDate}, #{phone}, #{selectLocal})
+    INSERT INTO members(email,pwd,uname,sex,birth,phone,lcode) 
+    VALUES (#{email}, #{password}, #{userName}, #{sex}, #{birthDate}, #{phone}, #{selectLocal})
   </insert>
   
   <!--회원정보 수정  -->

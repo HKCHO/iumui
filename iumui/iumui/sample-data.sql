@@ -16,13 +16,13 @@ insert into bmaster values(null,'유흥');
 -- 게시판 (iboard)
 
 INSERT INTO iboard
-VALUES(null , 1 , 1 , 'text11' , 'testtesttest' , 5 , '2015-03-02', '2015-03-15', '2015-02-15' , 0 , '11010');
+VALUES(null , 1 , 1 , '하꾸하꾸하꾸하꾸' , 'testtesttest' , 5 , '2015-03-02', '2015-03-15', '2015-02-15' , 0 , '11010');
 INSERT INTO iboard
-VALUES( null, 1 , 1 , 'text12' , 'testtesttest' , 5 , '2015-03-02', '2015-03-15', '2015-02-15' , 0 , '11010');
+VALUES( null, 1 , 1 , '호다로쟈디호잘2' , 'testtesttest' , 5 , '2015-03-02', '2015-03-15', '2015-02-15' , 0 , '11010');
 INSERT INTO iboard
-VALUES( null, 1 , 1 , 'text13' , 'testtesttest' , 5 , '2015-03-02', '2015-03-15', '2015-02-15' , 0 , '11010');
+VALUES( null, 1 , 1 , '윈드스톰의수호자' , 'testtesttest' , 5 , '2015-03-02', '2015-03-15', '2015-02-15' , 0 , '11010');
 INSERT INTO iboard
-VALUES( null, 1 , 1 , 'text14' , 'testtesttest' , 5 , '2015-03-02', '2015-03-15', '2015-02-15' , 0 , '11010');
+VALUES( null, 1 , 1 , '뭐넣지뭐넣지뭐넣지' , 'testtesttest' , 5 , '2015-03-02', '2015-03-15', '2015-02-15' , 0 , '11010');
 INSERT INTO iboard
 VALUES( null, 1 , 1 , 'text15' , 'testtesttest' , 5 , '2015-03-02', '2015-03-15', '2015-02-15' , 0 , '11010');
 INSERT INTO iboard

@@ -78,15 +78,26 @@ public class BoardControl {
 			HttpSession session,
 			@RequestParam(defaultValue="1") int startIndex) throws Exception {
 		
-		Member loginUser = (Member) session.getAttribute("loginUser");
-		
-		int mno = loginUser.getMemberNo();
-		
 		HashMap<String,Object> resultMap = new HashMap<>();
-		resultMap.put("status", "success");
-		resultMap.put("recgroups", boardService.getRcommendGroups(mno , startIndex));
 		
-		return resultMap;
+		if (session.getAttribute("loginUser") != null){
+			
+			Member loginUser = (Member) session.getAttribute("loginUser");
+			
+			int mno = loginUser.getMemberNo();
+			int  endIndex = startIndex + 5;
+			resultMap.put("status", "success");
+			resultMap.put("recgroups", boardService.getRcommendGroups(mno , startIndex , endIndex));
+			
+			return resultMap;
+			
+		} else {
+			
+			resultMap.put("status", "nolog");
+			
+			return resultMap;
+			
+		}
 	}
   
   @RequestMapping(value="/add", method=RequestMethod.POST)

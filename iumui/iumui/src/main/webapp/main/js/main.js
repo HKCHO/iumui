@@ -13,7 +13,7 @@ $(function(){
 	
 	loadBoardAllList();
 	loadRecGroups();//main_sidebar_table1
-	//loadMyGroups(1);//main_sidebar_table2
+	loadMyGroups(1);//main_sidebar_table2
 	
 	$(document).on('click', '.tableHead a', function(){
     loadProduct($(this).attr('category-no'));
@@ -37,7 +37,7 @@ function loadBoardAllList() {
 
 /** 추천모임 start */
 function loadRecGroups() {
-	$.getJSON('../board/recommendgroups.do?startIndex=1', 
+	$.getJSON('../board/recommendgroups.do?startIndex=0', 
 			function(data){
 
 		/** 확인용 로그*/
@@ -73,14 +73,16 @@ function loadRecGroups() {
 				}
 					$('#f2').html("추천 그룹이 없습니다");
 			}
+		} else if((data.status) == "nolog") {
+			$('#sidebar_contents1 a').html("추천 모임");
+			
+			for ( var i=0; i < 6; i++ ) {
+				$('#sidebar_table1_content').append("<tr><td id=\"f" + i + "\" class=\"sidebar_title\"></td></tr>");
+			}
+				$('#f2').html("로그인 후 이용해 주세요");
 		}
 	}).error(function() {
-		$('#sidebar_contents1 a').html("추천 모임");
-		
-		for ( var i=0; i < 6; i++ ) {
-			$('#sidebar_table1_content').append("<tr><td id=\"f" + i + "\" class=\"sidebar_title\"></td></tr>");
-		}
-			$('#f2').html("로그인 후 이용해 주세요");
+		console.log('브라우저를 새로고침 해주세요');
 	});
 	
 };

@@ -31,11 +31,12 @@ public class BoardService {
     return boardDao.selectList(paramMap);
   }
   
-  public List<?> getRcommendGroups (int mno,int startIndex) {
+  public List<?> getRcommendGroups (int mno,int startIndex,int endIndex) {
   	
   	HashMap<String,Object> paramMap = new HashMap<>();
   	paramMap.put("mno", mno);
   	paramMap.put("startIndex", startIndex);
+  	paramMap.put("endIndex", endIndex);
   	
   	return boardDao.selectRecommendedGroup(paramMap);
   }
