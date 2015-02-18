@@ -20,7 +20,7 @@ public class BoardService {
    
     HashMap<String,Object> paramMap = new HashMap<>();
     paramMap.put("categoryNo", categoryNo);
-    //paramMap.put("startIndex", ((pageNo - 1) * pageSize));
+    paramMap.put("startIndex", ((pageNo - 1) * pageSize));
     paramMap.put("pageNo", pageNo);
     paramMap.put("pageSize", pageSize);
     boardSearchText = "%" + boardSearchText + "%";

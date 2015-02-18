@@ -43,6 +43,9 @@ DROP TABLE IF EXISTS recommend RESTRICT;
 -- 지역분류
 DROP TABLE IF EXISTS slocal RESTRICT;
 
+-- 알람
+DROP TABLE IF EXISTS alarm RESTRICT;
+
 -- 회원
 CREATE TABLE members (
 	mno     INTEGER      NOT NULL COMMENT '회원번호', -- 회원번호
@@ -220,7 +223,8 @@ ALTER TABLE gmembers
 CREATE TABLE gschedule (
 	calendarno INTEGER      NOT NULL COMMENT '일정번호', -- 일정번호
 	gno        INTEGER      NOT NULL COMMENT '그룹번호', -- 그룹번호
-	cdate      DATE         NOT NULL COMMENT '날짜', -- 날짜
+	startday   DATE         NOT NULL COMMENT '시작일', -- 시작일
+	endday     DATE         NULL     COMMENT '종료일', -- 종료일
 	cschedule  VARCHAR(500) NOT NULL COMMENT '내용' -- 내용
 )
 COMMENT '그룹일정';
@@ -322,4 +326,19 @@ ALTER TABLE slocal
 	ADD CONSTRAINT PK_slocal -- 지역분류 기본키
 		PRIMARY KEY (
 			lcode -- 지역분류코드
+		);
+
+-- 알람
+CREATE TABLE alarm (
+	mno     INTEGER      NOT NULL COMMENT '회원번호', -- 회원번호
+	content VARCHAR(110) NOT NULL COMMENT '알람내용', -- 알람내용
+	stat    INTEGER      NOT NULL COMMENT '상태' -- 상태
+)
+COMMENT '알람';
+
+-- 알람
+ALTER TABLE alarm
+	ADD CONSTRAINT PK_alarm -- 알람 기본키
+		PRIMARY KEY (
+			mno -- 회원번호
 		);

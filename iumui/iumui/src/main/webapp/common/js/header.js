@@ -3,12 +3,11 @@
  * 
  * /iumui/common/js/header.js
  * 헤더 자바스크립트 소스
- * 2015.2월 - 권영근, 김광철, 조현권
+ * 2015.2월 - 조현권
  */
 //var logintester;
   // 쿠키 가져오기
 $(function(){
-  
   if((document.cookie) != null && (document.cookie) != ""){
     var cookieId = (document.cookie).split('"');
 
@@ -22,8 +21,6 @@ $(function(){
         $("#save").attr("checked", false);    // 체크박스에 체크
         
       }
-  
-  
 });
   
 
@@ -84,17 +81,15 @@ $(function(){
 			if (data.loginUser.userPhoto) {
 	      $('#myphoto').attr('src', '/iumui/fileupload/' + data.loginUser.userPhoto);
 	  }
-			//console.log("로그인 유저 이름 (logintester): " + data.loginUser.userName);
 			
 		  $('.myName').html(data.loginUser.userName + " 님.");
 
-			$.getJSON('../json/board/message_count.do', 
+			$.getJSON('../board/message_count.do', 
 			    function(result){
-				//console.log(result);
 				$('.informCount').html('&nbsp; ' + result.messageCount);
 			});
 			
-			$.getJSON('../json/board/message.do', 
+			$.getJSON('../board/message.do', 
 			    function(mes){
 			
 				console.log(mes);
@@ -109,15 +104,6 @@ $(function(){
 													+ mes.messages[i].boardNo + "' class='alarm-title' data-no='" 
 													+ mes.messages[i].boardNo + "'>" + (parseInt(i)+1) + ". " 
 													+ mes.messages[i].message + "</a>"));
-					/*
-					if ( mes.messages[i].state == 3) {
-						$('#msg1').append("<button type='button' " +
-								"class='btn btn-default btn-xs btnRAccept' reqDel='bno=" + 
-								mes.messages[i].boardNo + "&mno=" + mes.messages[i].memberNo +  
-								">확인</button>");
-						
-					}
-					*/
 				}
 			});
 		}

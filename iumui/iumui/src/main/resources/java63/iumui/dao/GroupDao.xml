@@ -97,15 +97,13 @@
   </select>
   
   <select id="selectUserSchedules" parameterType="map" resultMap="userSchedules">
-		 SELECT ROWNUM rnum, startday, endday, cschedule, color
-  			FROM   
-    			(SELECT *
-  						FROM 
-  							(SELECT T2.STARTDAY startday,T2.ENDDAY endday, T2.CSCHEDULE cschedule, T1.COLOR color
-					  				FROM GMEMBERS T1, GSCHEDULE T2 
-					  				WHERE T1.MNO=#{mno} AND T1.GNO=T2.GNO)
-			 		  	ORDER BY startday ASC)
-  			 WHERE ROWNUM ^= #{dataSize}+1
+		 SELECT startday, endday, cschedule, color
+     FROM ( SELECT *
+	          FROM ( SELECT t2.startday startday, t2.endday endday, t2.cschedule cschedule, t1.color color
+			             FROM gmembers t1, gschedule t2 
+			             WHERE t1.mno=#{mno} AND t1.gno=t2.gno ) tmp
+	          ORDER BY startday ASC) tmp2
+     LIMIT 0 , #{dataSize}
   </select>
   
   <select id="selectThisGroupSchedules" parameterType="map" resultMap="groupSchedules">

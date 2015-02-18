@@ -38,15 +38,12 @@ function loadLocalList() {
 $('#grp_state').change(function(){
 	console.log($(this).val());
 	$.getJSON('../board/local_small.do?no=' + $(this).val(), 
-	    function(data){
-	  	
-	  		//console.log(data);
-	  	
-		  	require(['text!templates/local-small.html'], function(html){
-		      var template = Handlebars.compile(html);
-		      $('#selectLocal').html( template(data) );
-		    });
-	    });
+			function(data){
+		require(['text!templates/local-small.html'], function(html){
+			var template = Handlebars.compile(html);
+			$('#selectLocal').html( template(data) );
+		});
+	});
 });
 
 $('#radioC').click(function(event){
@@ -64,7 +61,7 @@ $('#btnCancel').click(function(){
 
 $('#btnAdd').click(function(){
   if (!validateForm()) return;
-  $.post('../json/board/add.do'
+  $.post('../board/add.do'
       , { 
 			  	categoryNo : category_number,
 			  	title : $('#title').val(),

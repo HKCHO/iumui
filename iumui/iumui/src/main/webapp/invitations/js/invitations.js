@@ -1,7 +1,6 @@
 /**
  * 게시판 JS 소스입니다.
  */
-
 var category_number;
 var currPageNo;
 var maxPageNo;
@@ -207,7 +206,7 @@ function loadRecGroups() {
 function loadBoardList(pageNo, boardSearchText, boardSelectLocal) {
 	if (pageNo <= 0) pageNo = currPageNo;
 	
-	$.getJSON('../json/board/list.do?no=' + category_number + '&pageNo=' + pageNo + 
+	$.getJSON('../board/list.do?no=' + category_number + '&pageNo=' + pageNo + 
 			'&boardSearchText=' + boardSearchText + '&boardSelectLocal=' + boardSelectLocal, 
     function(data){
 			setPageNo(data.currPageNo, data.maxPageNo);

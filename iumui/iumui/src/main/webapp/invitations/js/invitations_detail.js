@@ -18,28 +18,26 @@ $(function(){
 	loadMyGroups(1);
 	
 	var address = unescape(location.href);
-	var param = "";
+	var bno = "";
 	if(address.indexOf("no", 0) != -1) {
-	        param = address.substring(address.indexOf("no", 0) + 3);
+	        bno = address.substring(address.indexOf("no", 0) + 3);
 	} else {
-	        param = "1";
+	        bno = "1";
 	}
-	console.log("no = " + param);
+	console.log("no = " + bno);
 	
-	loadBoard(param);
+	loadBoard(bno);
 	
 });
 
 function loadBoard(boardNo) {
 	var nowDate = new Date();
-  $.getJSON('../json/board/view.do?no=' + boardNo,
+  $.getJSON('../board/view.do?no=' + boardNo,
     function(data){
   		board = data.board;
   		loginUser = data.loginUser;
   		boardRequests = data.boardRequests;
   		console.log(data.board);
-  		//console.log(data.loginUser);
-  		//console.log(data.boardComments);
   		console.log(data.boardRequests);
   		board.reqCount++;
   		
@@ -243,7 +241,7 @@ $('#btnBoard').click(function(){
 });
 
 function updateBoard() {
-  $.post('../json/board/update.do'
+  $.post('../board/update.do'
       , {
         no : board.no,
         content : $('#bcontent').val()
@@ -313,7 +311,7 @@ $(document).on('click', '.btnRReject',function(){
 
 /** 추천모임 start */
 function loadRecGroups() {
-	$.getJSON('../json/board/recommendgroups.do?startIndex=1', 
+	$.getJSON('../board/recommendgroups.do?startIndex=1', 
 			function(data){
 
 		/** 확인용 로그*/
@@ -412,7 +410,7 @@ function loadMyGroups(pageNo) {
 /** 나의 모임 end */
 
 function recommendBoard() {
-	$.getJSON('../json/board/recommend.do?no=' + board.no, 
+	$.getJSON('../board/recommend.do?no=' + board.no, 
 	    function(data){
 	      if (data.status == 'success') {
 	      	loadBoard(board.no);
@@ -421,7 +419,7 @@ function recommendBoard() {
 }
 
 function requestBoard() {
-	$.getJSON('../json/board/request.do?no=' + board.no, 
+	$.getJSON('../board/request.do?no=' + board.no, 
 	    function(data){
 	      if (data.status == 'success') {
 	      	loadBoard(board.no);
@@ -430,7 +428,7 @@ function requestBoard() {
 }
 
 function requestAccept(reqVal) {
-	$.getJSON('../json/board/req_accept.do?' + reqVal, 
+	$.getJSON('../board/req_accept.do?' + reqVal, 
 	    function(data){
 	      if (data.status == 'success') {
 	      	loadBoard(board.no);
@@ -439,7 +437,7 @@ function requestAccept(reqVal) {
 }
 
 function requestReject(reqVal) {
-	$.getJSON('../json/board/req_reject.do?' + reqVal, 
+	$.getJSON('../board/req_reject.do?' + reqVal, 
 	    function(data){
 	      if (data.status == 'success') {
 	      	loadBoard(board.no);
@@ -448,7 +446,7 @@ function requestReject(reqVal) {
 }
 
 function deleteBoard() {
-  $.getJSON('../json/board/delete.do?no=' + board.no, 
+  $.getJSON('../board/delete.do?no=' + board.no, 
     function(data){
       if (data.status == 'success') {
         //loadBoardList(0);
@@ -464,7 +462,7 @@ $('#btnCReg').click(function(){
 	
 	if (!validateComment()) return;
   
-  $.post('../json/board/comment_add.do'
+  $.post('../board/comment_add.do'
       , {  
 			  	boardNo : board.no,
 			  	comment : $('#ccontent').val()
