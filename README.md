@@ -1,6 +1,6 @@
 # iumui
 2015년 2월 17일 
-: iumui프로젝트를 public repository와 전혀 다른 소스로 교체<br>
+<br>
   1) data-base mysql로 교체<br>
       &nbsp; ㄴ xml문 oracle 쿼리에서 mysql 쿼리로 교체 진행중<br>
   2) 스캐닝이 긴 SQL문 교체 진행중<br>
