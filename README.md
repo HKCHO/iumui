@@ -1,5 +1,4 @@
 # iumui
-2015년 2월 17일 
 <br>
   1) data-base mysql로 교체<br>
       &nbsp; ㄴ xml문 oracle 쿼리에서 mysql 쿼리로 교체 진행중<br>
