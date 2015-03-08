@@ -242,9 +242,9 @@ public class BoardControl {
   }
   
   @RequestMapping("/request")
-  public Object request(int no, 
+  public Object request(int bno, 
       HttpSession session) throws Exception {
-    boardService.request(no, ((Member)session.getAttribute("loginUser")).getMemberNo());
+    boardService.request(bno, ((Member)session.getAttribute("loginUser")).getMemberNo());
     HashMap<String,Object> resultMap = new HashMap<>();
     resultMap.put("status", "success");
     

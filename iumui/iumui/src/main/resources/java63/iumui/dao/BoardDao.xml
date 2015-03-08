@@ -153,8 +153,7 @@
     <result column="req_date" property="requestDate"/>
   </resultMap>
 
-  <select id="selectRequests" parameterType="int" 
-      resultMap="boardRequestMap">
+  <select id="selectRequests" parameterType="int" resultMap="boardRequestMap">
     SELECT b.bno bno, r.mno mno, m.uname uname, m.myphoto myphoto, r.state status, r.req_date req_date 
     FROM iboard b, request r, members m
     WHERE r.bno=b.bno AND r.mno=m.mno AND r.bno=#{value}

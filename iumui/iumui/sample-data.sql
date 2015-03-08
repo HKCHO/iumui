@@ -2,6 +2,26 @@
 
 INSERT INTO members (email, uname, pwd, birth, nick, phone, sex, myphoto, intro, lcode)
 VALUES('j880825@gmail.com', '조현권', '1234', '1988-08-25', 'eddie', '01092639665', 1 , null , null, '11010');
+INSERT INTO members (email, uname, pwd, birth, nick, phone, sex, myphoto, intro, lcode)
+VALUES('u01@test.com', '유공일', '111111', '1988-08-25', '공일', '01011111111', 1 , null , null, '11010');
+INSERT INTO members (email, uname, pwd, birth, nick, phone, sex, myphoto, intro, lcode)
+VALUES('u02@test.com', '유공일', '111111', '1988-08-25', '공일', '01022222222', 1 , null , null, '11010');
+INSERT INTO members (email, uname, pwd, birth, nick, phone, sex, myphoto, intro, lcode)
+VALUES('u03@test.com', '유공일', '111111', '1988-08-25', '공일', '01033333333', 1 , null , null, '11010');
+INSERT INTO members (email, uname, pwd, birth, nick, phone, sex, myphoto, intro, lcode)
+VALUES('u04@test.com', '유공일', '111111', '1988-08-25', '공일', '01044444444', 1 , null , null, '11010');
+INSERT INTO members (email, uname, pwd, birth, nick, phone, sex, myphoto, intro, lcode)
+VALUES('u05@test.com', '유공일', '111111', '1988-08-25', '공일', '01055555555', 1 , null , null, '11010');
+INSERT INTO members (email, uname, pwd, birth, nick, phone, sex, myphoto, intro, lcode)
+VALUES('u06@test.com', '유공일', '111111', '1988-08-25', '공일', '01066666666', 1 , null , null, '11010');
+INSERT INTO members (email, uname, pwd, birth, nick, phone, sex, myphoto, intro, lcode)
+VALUES('u07@test.com', '유공일', '111111', '1988-08-25', '공일', '01077777777', 1 , null , null, '11010');
+INSERT INTO members (email, uname, pwd, birth, nick, phone, sex, myphoto, intro, lcode)
+VALUES('u08@test.com', '유공일', '111111', '1988-08-25', '공일', '01088888888', 1 , null , null, '11010');
+INSERT INTO members (email, uname, pwd, birth, nick, phone, sex, myphoto, intro, lcode)
+VALUES('u09@test.com', '유공일', '111111', '1988-08-25', '공일', '01099999999', 1 , null , null, '11010');
+INSERT INTO members (email, uname, pwd, birth, nick, phone, sex, myphoto, intro, lcode)
+VALUES('u10@test.com', '유공일', '111111', '1988-08-25', '공일', '01010101010', 1 , null , null, '11010');
 
 --카테고리 (bmaster)
 

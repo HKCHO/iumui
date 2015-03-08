@@ -424,6 +424,8 @@ function requestBoard() {
 	      if (data.status == 'success') {
 	      	loadBoard(board.no);
 	      }
+	    }).error(function(){
+	    	alert("이미 참여신청 하셨습니다.");
 	    });
 }
 
