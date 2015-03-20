@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="java63.iumui.dao.BoardDao">
+
+  <resultMap type="map" id="boardAllListMap">
+    <id column="bno" property="no"/>
+    <result column="bmno" property="category"/>
+    <result column="bintro" property="content"/>
+  </resultMap>
+
+  <select id="selectAllList"
+        resultMap="boardAllListMap">
+    SELECT 
+      bno, 
+      bmno, 
+      bintro 
+    FROM iboard
+    ORDER BY bno
+  </select>
+
+  <resultMap type="Board" id="boardListMap">
+    <id column="bno" property="no"/>
+    <result column="bname" property="title"/>
+    <result column="btarget_num" property="targetNumber"/>
+    <result column="req_count" property="reqCount"/>
+    
+    <result column="start_date" property="startDate"/>
+    <result column="end_date" property="endDate"/>
+    <result column="uname" property="writer"/>
+    
+    <result column="good_count" property="goodCount"/>
+    <result column="click_count" property="clickCount"/>
+  </resultMap>
+  
+  <select id="selectList" parameterType="map" resultMap="boardListMap">
+    SELECT bno, bname, bintro, btarget_num, req_count, start_date, end_date, uname, good_count, click_count
+      FROM ( SELECT x.bno bno, x.bname bname, x.bintro bintro, x.btarget_num btarget_num, z.req_count req_count, x.start_date start_date, 
+                    x.end_date end_date, x.uname uname, y.good_count good_count, x.click_count click_count
+					   FROM ( SELECT b.bno bno, b.bname bname, b.bintro bintro, b.btarget_num btarget_num, 
+					                 b.start_date start_date, b.end_date end_date, m.uname uname, b.click_count click_count
+					          FROM iboard b, members m
+			          
+												<where> 
+											    <if test='categoryNo != null'>
+											      b.mno=m.mno AND b.bmno=#{categoryNo}
+											    </if>
+			                  	<if test='boardSelectLocal != ""'>
+			                    	AND b.lcode=#{boardSelectLocal}
+			                  	</if> 
+											    <if test='boardSearchText != ""'>
+										        AND (b.bname LIKE #{boardSearchText}
+										        OR b.bintro LIKE #{boardSearchText}
+										        OR m.uname LIKE #{boardSearchText})
+											    </if>
+											  </where>
+		          
+					          ORDER BY bno DESC ) x , 
+				          ( SELECT b.bno bno, COUNT(r.bno) good_count 
+					           FROM iboard b LEFT JOIN recommend r ON b.bno=r.bno 
+					           GROUP BY b.bno 
+					           ORDER BY b.bno DESC ) y , 
+				          ( SELECT b.bno bno, COUNT(q.bno) req_count 
+					           FROM iboard b LEFT JOIN (SELECT * FROM request WHERE state=1) q ON (b.bno=q.bno) 
+					           GROUP BY b.bno ORDER BY b.bno DESC) z
+		       WHERE x.bno=y.bno AND x.bno=z.bno
+		       LIMIT #{startIndex} , #{pageSize} ) tmp
+   <!--  WHERE bno > #{startIndex} -->
+  </select>
+
+  <resultMap type="Board" id="boardMap">
+    <id column="bno" property="no"/>
+    <result column="bmno" property="categoryNo"/>
+    <result column="bname" property="title"/>
+    <result column="bintro" property="content"/>
+    <result column="btarget_num" property="targetNumber"/>
+    <result column="start_date" property="startDate"/>
+    <result column="end_date" property="endDate"/>
+    <result column="reg_date" property="regDate"/>
+    <result column="click_count" property="clickCount"/>
+    <result column="lcode" property="goodCount"/>
+    <result column="mno" property="writerNo"/>
+    <result column="uname" property="writer"/>
+    <result column="myphoto" property="writerPhoto"/>
+    <result column="good_count" property="goodCount"/>
+    <result column="req_count" property="reqCount"/>
+  </resultMap>
+  
+  <select id="selectOne" parameterType="int" resultMap="boardMap">
+		SELECT x.bno bno, x.bmno bmno, x.bname bname, x.bintro bintro, x.btarget_num btarget_num, x.start_date start_date, x.end_date end_date, 
+				   x.reg_date reg_date, x.click_count click_count, x.lcode lcode, x.mno mno, x.uname uname, x.myphoto myphoto, y.good_count good_count, 
+				   z.req_count req_count
+		FROM ( SELECT b.bno bno, b.bmno bmno, b.bname bname, b.bintro bintro, b.btarget_num btarget_num, b.start_date start_date, b.end_date end_date, 
+						      b.reg_date reg_date, b.click_count click_count, b.lcode lcode, b.mno mno, m.uname uname, m.myphoto myphoto
+				   FROM iboard b, members m
+			     WHERE b.mno=m.mno
+				   ORDER BY bno DESC) x, 
+				 ( SELECT b.bno bno, count(r.bno) good_count 
+			     FROM iboard b LEFT OUTER JOIN recommend r 
+			     ON b.bno=r.bno
+			     GROUP BY b.bno) y,
+				 ( SELECT b.bno bno, count(q.bno) req_count 
+			     FROM iboard b LEFT OUTER JOIN (SELECT * FROM request WHERE state = 1) q 
+			     ON b.bno=q.bno 
+			     GROUP BY b.bno) z
+		WHERE x.bno=y.bno AND x.bno=z.bno AND x.bno= #{value}
+  </select>
+ 
+  <insert id="insert" parameterType="Board">
+    INSERT INTO iboard 
+    VALUES (null , #{categoryNo}, #{writerNo}, #{title}, #{content}, #{targetNumber}, #{startDate}, #{endDate}, (SELECT SYSDATE()), 0, #{selectLocal})
+  </insert>
+  
+  <resultMap type="BoardComment" id="boardCommentMap">
+    <id column="bcno" property="no"/>
+    <result column="bno" property="boardNo"/>
+    <result column="uname" property="userName"/>
+    <result column="myphoto" property="userPhoto"/>
+    <result column="content" property="comment"/>
+    <result column="reg_date" property="commentRegDate"/>
+  </resultMap>
+
+  <select id="selectComments" parameterType="int" resultMap="boardCommentMap">
+    SELECT c.bcno bcno, c.bno bno, m.uname uname, m.myphoto myphoto, c.content content, c.redate reg_date 
+    FROM bcomment c, members m
+    WHERE c.mno=m.mno and c.bno=#{value}
+    ORDER BY bcno DESC
+  </select>
+  
+  <resultMap type="map" id="recboardMap">
+    <result column="bcategory" property="category"/>
+    <result column="bno" property="boardNo"/>
+    <result column="bname" property="boardTitle"/>
+    <result column="lcode" property="district"/>
+  </resultMap>
+  
+  <select id="selectRecommendedGroup" parameterType="map" resultMap="recboardMap">
+		SELECT * 
+ 			 FROM(SELECT T3.bcategory, T1.bno bno, T1.bname, T1.lcode, T2.rcount
+      	  FROM iboard T1, (SELECT bno, COUNT(bno) rcount FROM recommend GROUP BY bno) T2, bmaster T3 ,members T4
+      	  WHERE T1.bno = T2.bno AND T3.bmno = T1.bmno AND T4.lcode = T1.lcode AND T4.mno = #{mno}) tmp
+		LIMIT #{startIndex} , #{endIndex}
+  </select>
+  
+  <resultMap type="BoardRequest" id="boardRequestMap">
+    <result column="bno" property="boardNo"/>
+    <result column="mno" property="memberNo"/>
+    <result column="uname" property="userName"/>
+    <result column="myphoto" property="userPhoto"/>
+    <result column="status" property="statusNo"/>
+    <result column="req_date" property="requestDate"/>
+  </resultMap>
+
+  <select id="selectRequests" parameterType="int" resultMap="boardRequestMap">
+    SELECT b.bno bno, r.mno mno, m.uname uname, m.myphoto myphoto, r.state status, r.req_date req_date 
+    FROM iboard b, request r, members m
+    WHERE r.bno=b.bno AND r.mno=m.mno AND r.bno=#{value}
+  </select>
+  
+  <insert id="insertComment" parameterType="BoardComment">
+    INSERT INTO bcomment 
+    VALUES (null, #{boardNo},#{memberNo},#{comment},(SELECT SYSDATE()))
+  </insert>
+  
+  <update id="update" parameterType="Board">
+    UPDATE iboard SET bintro=#{content} WHERE bno=#{no}
+  </update>
+  
+  <delete id="delete" parameterType="int">
+    DELETE FROM iboard WHERE bno=#{no}
+  </delete>
+  
+  <delete id="deleteComments" parameterType="int">
+    DELETE FROM bcomment WHERE bno=#{no}
+  </delete>
+  
+  <delete id="deleteRequests" parameterType="int">
+    DELETE FROM request WHERE bno=#{no}
+  </delete>
+  
+  <delete id="deleteRecommends" parameterType="int">
+    DELETE FROM recommend WHERE bno=#{no}
+  </delete>
+  
+  <select id="totalSize" parameterType="map" resultType="int">
+    SELECT count(b.bno) FROM iboard b, members m 
+    <where> 
+      <if test='categoryNo != null'>
+           b.mno = m.mno AND b.bmno=#{categoryNo}
+      </if>
+      <if test='boardSelectLocal != ""'>
+           AND b.lcode=#{boardSelectLocal}
+      </if> 
+      <if test='boardSearchText != ""'>
+          AND (b.bname LIKE #{boardSearchText}
+          OR b.bintro LIKE #{boardSearchText}
+          OR m.uname LIKE #{boardSearchText})
+      </if>
+    </where>
+  </select>
+  
+  <insert id="recommend" parameterType="map">
+    INSERT INTO recommend
+    VALUES (#{boardNo},#{memberNo},(SELECT SYSDATE()))
+  </insert>
+  
+  <select id="selectMessageCount" parameterType="int" resultType="int">
+    SELECT count(r.mno) 
+    FROM iboard b, request r, members m 
+    WHERE r.bno=b.bno AND r.mno=m.mno AND (b.mno=#{value} OR r.mno=#{value})
+  </select>
+  
+  
+  <resultMap type="map" id="messageMap">
+    <result column="bno" property="boardNo"/>
+    <result column="mno" property="memberNo"/>
+    <result column="message" property="message"/>
+    <result column="state" property="statusNo"/>
+  </resultMap>
+  
+  <select id="selectMessage" parameterType="int" resultMap="messageMap">
+    SELECT x.bno bno, x.mno mno, 
+      (CONCAT('[' , ifnull(x.bname, '') , '] 에 ' , ifnull(x.uname, '') , '님이 ' , ifnull(y.explanation, ''))) message, x.state state 
+    FROM 
+					(SELECT r.bno bno, r.mno mno, b.bname bname, m.uname uname, r.state state 
+					  FROM iboard b, request r, members m 
+					  WHERE r.bno=b.bno AND r.mno=m.mno AND (b.mno=#{value} OR r.mno=#{value}) ORDER BY r.req_date) x, 
+					(SELECT 0 state ,'참여 요청 하였습니다.' explanation FROM dual
+					  UNION
+					  SELECT 1, '참여 확정 되었습니다.' FROM dual
+					  UNION
+					  SELECT 2, '참여 거부 되었습니다.' FROM dual
+					  UNION
+				    SELECT 3, '참여 되었습니다.' FROM dual) y
+		WHERE x.state=y.state
+  </select>
+  
+  <insert id="request" parameterType="map">
+    INSERT INTO request
+    VALUES (#{boardNo},#{memberNo},0,(SELECT SYSDATE()))
+  </insert>
+  
+  <update id="requestAccept" parameterType="map">
+    UPDATE request SET state=1 WHERE bno=#{boardNo} AND mno=#{memberNo}
+  </update>
+  
+  <update id="requestReject" parameterType="map">
+    UPDATE request SET state=2 WHERE bno=#{boardNo} AND mno=#{memberNo}
+  </update>
+  
+  <update id="updateClick" parameterType="int">
+    UPDATE iboard SET click_count=click_count+1 WHERE bno=#{boardNo}
+  </update>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
