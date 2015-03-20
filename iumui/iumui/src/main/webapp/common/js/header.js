@@ -34,10 +34,6 @@ $(function(){
 	    $("#save").attr("checked", false)
 	  }
 
-
-	  
-
-	  
     $.post('../auth/login.do'
         , {
           email : $('#inputId').val(),
